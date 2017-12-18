@@ -30,15 +30,12 @@ public class MapAccount extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        setupViewPager(mViewPager);
+        mSectionsPageAdapter.addFragment(new In_putFragment(),getString(R.string.in_out));
+        mSectionsPageAdapter.addFragment(new My_mapFragment(), getString(R.string.my_map));
+        mViewPager.setAdapter(mSectionsPageAdapter);
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-    }
-    private void setupViewPager(ViewPager viewPager) {
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new In_putFragment(),getString(R.string.in_out));
-        adapter.addFragment(new My_mapFragment(), getString(R.string.my_map));
-        viewPager.setAdapter(adapter);
     }
 }

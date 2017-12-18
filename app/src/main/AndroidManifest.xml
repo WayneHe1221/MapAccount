@@ -12,13 +12,18 @@
         <activity
             android:name=".MapAccount"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <fragment
+            android:name=".In_putFragment"
+            android:windowSoftInputMode="stateHidden">
+        </fragment>
     </application>
 
 </manifest>

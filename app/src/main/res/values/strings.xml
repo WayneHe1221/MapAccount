@@ -5,5 +5,8 @@
     <string name="in_out">支出與收入</string>
     <string name="new_coast">新 增 金 額</string>
     <string name="new_finish">新 增 完 成</string>
+    <string name="day">日</string>
+    <string name="month">月</string>
+    <string name="year">年</string>
     <string name="section_format">Hello World from section: %1$d</string>
 </resources>
