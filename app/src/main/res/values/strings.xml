@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MapAccount</string>
+    <string name="action_settings">Settings</string>
+    <string name="my_map">我的美食地圖</string>
+    <string name="in_out">支出與收入</string>
+    <string name="new_coast">新 增 金 額</string>
+    <string name="new_finish">新 增 完 成</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+</resources>
