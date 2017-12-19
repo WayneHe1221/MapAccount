@@ -15,14 +15,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
-public class Day_coast_view extends Fragment {
+public class Year_coast_view extends Fragment {
     private static final String TAG = "Tab1Fragment";
 
     private Button btnTEST;
     private TextView dateText;
     private ImageButton btnleft;
     private ImageButton btnright;
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 
     @Nullable
     @Override
@@ -53,9 +53,9 @@ public class Day_coast_view extends Fragment {
                 Toast.makeText(getActivity(), getString(R.string.new_finish),Toast.LENGTH_SHORT).show();
             }
         });
-
         return view;
     }
+
 
     private String getToday() {
         return sdf.format(Calendar.getInstance().getTime());
@@ -65,11 +65,10 @@ public class Day_coast_view extends Fragment {
         String nowDate = dateText.getText().toString();
         try {
             c.setTime(sdf.parse(nowDate));
-            c.add(Calendar.DATE, days);
+            c.add(Calendar.YEAR, days);
             dateText.setText(sdf.format(c.getTime()));
         } catch (Exception e) {
             dateText.setText(getToday());
         }
     }
 }
-

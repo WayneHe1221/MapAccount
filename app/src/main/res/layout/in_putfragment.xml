@@ -6,85 +6,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnTEST"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_weight="2"
-            android:text="@string/new_coast"
-            android:textSize="20dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/btnleft"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="@drawable/left"
-                android:scaleType="fitXY"
-                android:src="@drawable/left" />
-
-            <EditText
-                android:id="@+id/dateText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:textColor="#000000"
-                android:gravity="center"
-                android:inputType="date"
-                android:text="2017/12/25"
-                android:textSize="25dp"
-                />
-
-            <ImageButton
-                android:id="@+id/btnright"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="@drawable/right"
-                android:scaleType="fitXY"
-                android:src="@drawable/right" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-    <android.support.v4.view.ViewPager
+    <com.chun.mapaccount.NoScrollViewPager
         android:id="@+id/coast_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_weight="200">
 
-    </android.support.v4.view.ViewPager>
+    </com.chun.mapaccount.NoScrollViewPager>
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="900"
+        android:layout_weight="1900"
         android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/day_tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"/>
 
     </android.support.design.widget.AppBarLayout>
 

@@ -34,7 +34,6 @@ public class MapAccount extends AppCompatActivity {
         mSectionsPageAdapter.addFragment(new My_mapFragment(), getString(R.string.my_map));
         mViewPager.setAdapter(mSectionsPageAdapter);
 
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
     }
