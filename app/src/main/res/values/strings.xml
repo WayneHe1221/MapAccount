@@ -11,5 +11,7 @@
     <string name="balance">結餘</string>
     <string name="all_coast">總支出</string>
     <string name="all_income">總收入</string>
+    <string name="coast_show">支 出 項 目</string>
+    <string name="go_new">開始新增</string>
     <string name="section_format">Hello World from section: %1$d</string>
 </resources>

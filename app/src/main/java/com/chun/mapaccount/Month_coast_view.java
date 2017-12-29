@@ -1,5 +1,6 @@
 package com.chun.mapaccount;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -50,7 +51,10 @@ public class Month_coast_view extends Fragment {
         btnTEST.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), getString(R.string.new_finish),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), AddItem.class);
+                startActivity(intent);
+                Toast.makeText(getActivity(), getString(R.string.go_new),Toast.LENGTH_SHORT).show();
             }
         });
         return view;
