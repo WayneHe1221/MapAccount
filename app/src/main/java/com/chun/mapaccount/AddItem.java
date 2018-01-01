@@ -4,9 +4,7 @@ package com.chun.mapaccount;
  * Created by Wayne on 2017/12/19.
  */
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
@@ -119,7 +117,7 @@ public class AddItem extends Activity {
             }
         });
         //乘按鈕
-        btnmul = (Button) findViewById(R.id.btnmul);
+        btnmul = (Button) findViewById(R.id.btnsub);
         btnmul.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 if(CALCULATE == '1'){
