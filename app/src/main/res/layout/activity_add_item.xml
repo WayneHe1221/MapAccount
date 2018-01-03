@@ -361,19 +361,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/item_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="項目"
             android:textAlignment="center"
             android:textSize="38sp"
             app:layout_constraintHorizontal_bias="0.427"
-            app:layout_constraintLeft_toRightOf="@+id/finish_add"
+            app:layout_constraintLeft_toRightOf="@+id/finish_edit"
             app:layout_constraintRight_toLeftOf="@+id/switch1"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_editObj"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="設定"
@@ -389,21 +389,21 @@
             android:textAlignment="center"
             android:textSize="36sp"
             app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintLeft_toRightOf="@+id/finish_add"
+            app:layout_constraintLeft_toRightOf="@+id/finish_edit"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/item_view" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_setplace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="自訂"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/button3" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_editObj" />
 
         <Button
-            android:id="@+id/finish_add"
+            android:id="@+id/finish_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
@@ -434,6 +434,7 @@
             android:showText="true"
             android:textOff="收入"
             android:textOn="支出"
+            android:checked="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"

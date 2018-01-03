@@ -4,20 +4,24 @@ package com.chun.mapaccount;
  * Created by Wayne on 2017/12/19.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DecimalFormat;
 
 
 public class AddItem extends Activity {
-    private Button finishAdd;
-    private TextView calView;
+    private Button finishAdd,btn_setplace,btn_editObj;
+    private TextView calView,item_view;
     private Button btnclear,btn9,btn8,btn7,btn6,btn5,btn4,btn3,btn2,btn1,btn0;
     private Button btndel,btndiv,btnmul,btnsub,btnadd,btnpoint,btnequ;
+    private Switch switch1;
     private boolean point = false;
 
     private static  char ADD= '+';
@@ -31,23 +35,79 @@ public class AddItem extends Activity {
     private double one = Double.NaN;
     private double two= 0;
     DecimalFormat decimalFormat = new DecimalFormat("#.#");
-
+    MyDB myDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
+        myDb = new MyDB(AddItem.this);
+        item_view = (TextView) findViewById(R.id.item_view);
 
-        //計算結果顯示
-        calView = (TextView) findViewById(R.id.calView);
+        //支出收入轉換
+        switch1 = (Switch) findViewById(R.id.switch1);
+        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(compoundButton.isChecked()){
+                    Toast.makeText(AddItem.this,getString(R.string.coast_show),Toast.LENGTH_SHORT).show();
+                } else{
+                    Toast.makeText(AddItem.this,getString(R.string.income_show),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         //完成按鈕
-        finishAdd = (Button) findViewById(R.id.finish_add);
+        finishAdd = (Button) findViewById(R.id.finish_edit);
         finishAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AddItem.this, getString(R.string.new_finish),Toast.LENGTH_SHORT).show();
+                //myDb.addCoast("2018/01/02",Double.parseDouble(calView.getText().toString()),item_view.getText().toString(),23.5423,121.234);
+                //myDb.delete(1);
+                //myDb.storyDB();
+                if(switch1.isChecked()) {
+                    if (Double.parseDouble(calView.getText().toString()) > 0){
+                        myDb.addCoast("2018/01/02", Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), 23.5423, 121.234);
+                        Toast.makeText(AddItem.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
+                    }else
+                        Toast.makeText(AddItem.this,"新增失敗 金額錯誤",Toast.LENGTH_SHORT).show();
+                }else{
+                    if(Double.parseDouble(calView.getText().toString()) > 0) {
+                        myDb.addIncome("2018/01/02", Double.parseDouble(calView.getText().toString()), item_view.getText().toString());
+                        Toast.makeText(AddItem.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
+                    }else
+                        Toast.makeText(AddItem.this,"新增失敗 金額錯誤",Toast.LENGTH_SHORT).show();
+                }
+                Intent intent = new Intent();
+                intent.setClass(AddItem.this, MapAccount.class);
+                startActivity(intent);
                 AddItem.this.finish();
             }
         });
+
+        //選項設定按鈕
+        btn_editObj = (Button) findViewById(R.id.btn_editObj);
+        btn_editObj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AddItem.this, "設定選項",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(AddItem.this, EditObj.class);
+                startActivity(intent);
+            }
+        });
+        //設定地點按鈕
+        btn_setplace = (Button) findViewById(R.id.btn_setplace);
+        btn_setplace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AddItem.this, "選擇地點",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(AddItem.this, SetPlace.class);
+                startActivity(intent);
+            }
+        });
+        //計算結果顯示
+        calView = (TextView) findViewById(R.id.calView);
         //清除按鈕
         btnclear = (Button) findViewById(R.id.btnclear);
         btnclear.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +177,7 @@ public class AddItem extends Activity {
             }
         });
         //乘按鈕
-        btnmul = (Button) findViewById(R.id.btnsub);
+        btnmul = (Button) findViewById(R.id.btnmul);
         btnmul.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 if(CALCULATE == '1'){
@@ -378,4 +438,5 @@ public class AddItem extends Activity {
             catch (Exception e){}
         }
     }
+
 }

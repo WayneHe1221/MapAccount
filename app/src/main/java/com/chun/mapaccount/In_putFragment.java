@@ -30,6 +30,8 @@ public class In_putFragment extends Fragment {
         adapter.addFragment(new Year_coast_view(),getString(R.string.year));
         adapter.addFragment(new Month_coast_view(), getString(R.string.month));
         adapter.addFragment(new Day_coast_view(),getString(R.string.day));
+        adapter.getItemPosition(3);
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(2);
     }
 }
