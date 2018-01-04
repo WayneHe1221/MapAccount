@@ -130,7 +130,10 @@
                 android:id="@+id/all_coast_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/holo_blue_dark"/>
         </LinearLayout>
 
         <LinearLayout
@@ -152,7 +155,10 @@
                 android:id="@+id/all_income_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/holo_blue_dark"/>
         </LinearLayout>
 
         <LinearLayout
@@ -174,7 +180,10 @@
                 android:id="@+id/balance_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/holo_blue_dark"/>
         </LinearLayout>
 
     </LinearLayout>

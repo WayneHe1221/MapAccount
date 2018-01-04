@@ -4,23 +4,27 @@ package com.chun.mapaccount;
  * Created by Wayne on 2017/12/19.
  */
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 public class AddItem extends Activity {
-    private Button finishAdd,btn_setplace,btn_editObj;
-    private TextView calView,item_view;
+    private Button finish_add_item,btn_setplace,btn_editObj;
+    private TextView calView,item_view,date_view;
     private Button btnclear,btn9,btn8,btn7,btn6,btn5,btn4,btn3,btn2,btn1,btn0;
-    private Button btndel,btndiv,btnmul,btnsub,btnadd,btnpoint,btnequ;
+    private Button btndel,btndiv,btnmul,btnsub,btnadd,btnpoint,btnequ,date_chose;
     private Switch switch1;
     private boolean point = false;
 
@@ -36,6 +40,8 @@ public class AddItem extends Activity {
     private double two= 0;
     DecimalFormat decimalFormat = new DecimalFormat("#.#");
     MyDB myDb;
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,10 +61,17 @@ public class AddItem extends Activity {
                 }
             }
         });
-
+        date_view = (TextView) findViewById(R.id.date_view);
+        date_view.setText(getToday());
+        date_chose = (Button) findViewById(R.id.date_chose);
+        date_chose.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
         //完成按鈕
-        finishAdd = (Button) findViewById(R.id.finish_edit);
-        finishAdd.setOnClickListener(new View.OnClickListener() {
+        finish_add_item = (Button) findViewById(R.id.finish_add_item);
+        finish_add_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //myDb.addCoast("2018/01/02",Double.parseDouble(calView.getText().toString()),item_view.getText().toString(),23.5423,121.234);
@@ -66,13 +79,13 @@ public class AddItem extends Activity {
                 //myDb.storyDB();
                 if(switch1.isChecked()) {
                     if (Double.parseDouble(calView.getText().toString()) > 0){
-                        myDb.addCoast("2018/01/02", Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), 23.5423, 121.234);
+                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), 23.5423, 121.234);
                         Toast.makeText(AddItem.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
                     }else
                         Toast.makeText(AddItem.this,"新增失敗 金額錯誤",Toast.LENGTH_SHORT).show();
                 }else{
                     if(Double.parseDouble(calView.getText().toString()) > 0) {
-                        myDb.addIncome("2018/01/02", Double.parseDouble(calView.getText().toString()), item_view.getText().toString());
+                        myDb.addIncome(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString());
                         Toast.makeText(AddItem.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
                     }else
                         Toast.makeText(AddItem.this,"新增失敗 金額錯誤",Toast.LENGTH_SHORT).show();
@@ -437,6 +450,36 @@ public class AddItem extends Activity {
             }
             catch (Exception e){}
         }
+    }
+    public void showDatePickerDialog() {
+        // 設定初始日期
+        Calendar c = Calendar.getInstance();
+        String nowDate = date_view.getText().toString();
+        try{
+            c.setTime(sdf.parse(nowDate));
+            // 跳出日期選擇器
+            DatePickerDialog dpd = new DatePickerDialog(this,new DatePickerDialog.OnDateSetListener() {
+                public void onDateSet(DatePicker view, int year,int monthOfYear, int dayOfMonth) {
+                    // 完成選擇，顯示日期
+                    if(monthOfYear<=8 && dayOfMonth<=9){
+                        date_view.setText(year + "/0" + (monthOfYear + 1) + "/0"+ dayOfMonth);
+                    }else if(monthOfYear<=8 && dayOfMonth >9){
+                        date_view.setText(year + "/0" + (monthOfYear + 1) + "/"+ dayOfMonth);
+                    }else if(monthOfYear>8 && dayOfMonth <=9){
+                        date_view.setText(year + "/" + (monthOfYear + 1) + "/0"+ dayOfMonth);
+                    }else{
+                        date_view.setText(year + "/" + (monthOfYear + 1) + "/"+ dayOfMonth);
+                    }
+                }
+            }, c.get(Calendar.YEAR),c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+            dpd.show();
+        }catch(Exception e){
+            date_view.setText(getToday());
+        }
+
+    }
+    private String getToday() {
+        return sdf.format(Calendar.getInstance().getTime());
     }
 
 }

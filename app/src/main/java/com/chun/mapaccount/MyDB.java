@@ -23,20 +23,20 @@ public class MyDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String INIT_TABLE1 = "CREATE TABLE " + TABLE_NAME1 + " (" +
                 "ID   INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                "DATE  CHAR(10), " +
+                "DATE  TEXT(10), " +
                 "COAST REAL(20) NOT NULL, " +
-                "ITEM CHAR(20), " +
+                "ITEM TEXT(20), " +
                 "LATITUDE REAL, " +
                 "LONGITUDE REAL );" ;
         final String INIT_TABLE2 = "CREATE TABLE " + TABLE_NAME2 + " (" +
                 "ID   INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                "DATE  CHAR(10), " +
+                "DATE  TEXT(10), " +
                 "COAST REAL(20) NOT NULL, " +
-                "ITEM CHAR(20) );" ;
+                "ITEM TEXT(20) );" ;
         final String INIT_TABLE3 = "CREATE TABLE " + TABLE_NAME3 + " (" +
                 "ID   INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                "CLASS  CHAR(10), " +
-                "ITEM CHAR(20) );" ;
+                "CLASS  TEXT(10), " +
+                "ITEM TEXT(20) );" ;
         sqLiteDatabase.execSQL(INIT_TABLE1);
         sqLiteDatabase.execSQL(INIT_TABLE2);
         sqLiteDatabase.execSQL(INIT_TABLE3);

@@ -368,9 +368,9 @@
             android:textAlignment="center"
             android:textSize="38sp"
             app:layout_constraintHorizontal_bias="0.427"
-            app:layout_constraintLeft_toRightOf="@+id/finish_edit"
+            app:layout_constraintLeft_toRightOf="@+id/finish_add_item"
             app:layout_constraintRight_toLeftOf="@+id/switch1"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/date_view" />
 
         <Button
             android:id="@+id/btn_editObj"
@@ -378,8 +378,8 @@
             android:layout_height="wrap_content"
             android:text="設定"
             android:textSize="16sp"
-            app:layout_constraintLeft_toLeftOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintLeft_toLeftOf="@+id/date_view"
+            app:layout_constraintTop_toBottomOf="@+id/date_view" />
 
         <TextView
             android:id="@+id/textView2"
@@ -389,7 +389,7 @@
             android:textAlignment="center"
             android:textSize="36sp"
             app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintLeft_toRightOf="@+id/finish_edit"
+            app:layout_constraintLeft_toRightOf="@+id/finish_add_item"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_view" />
 
@@ -399,32 +399,42 @@
             android:layout_height="wrap_content"
             android:text="自訂"
             android:textSize="16sp"
-            app:layout_constraintLeft_toLeftOf="@+id/textView"
+            app:layout_constraintLeft_toLeftOf="@+id/date_view"
             app:layout_constraintTop_toBottomOf="@+id/btn_editObj" />
 
         <Button
-            android:id="@+id/finish_edit"
+            android:id="@+id/finish_add_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:text="完成"
             android:textColor="@android:color/background_light"
             android:textSize="24sp"
-            app:layout_constraintLeft_toLeftOf="@+id/textView"
+            app:layout_constraintLeft_toLeftOf="@+id/date_view"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/date_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:text="Date"
+            android:text="2017/12/12"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
             android:textSize="40sp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/date_chose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="日期"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp"
+            app:layout_constraintRight_toRightOf="@+id/date_view"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Switch
@@ -437,7 +447,7 @@
             android:checked="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/date_view"
             app:layout_constraintVertical_bias="0.13999999" />
 
     </android.support.constraint.ConstraintLayout>

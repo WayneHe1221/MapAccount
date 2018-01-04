@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -34,6 +35,8 @@ public class Day_coast_view extends Fragment {
     Cursor res;
     String s ="";
     Cursor res2;
+    private double allcoast,allincome,allbalance;
+    DecimalFormat df = new DecimalFormat("#.#");
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,7 +45,12 @@ public class Day_coast_view extends Fragment {
         dateText = (TextView) view.findViewById(R.id.dateText);
         btnleft = (ImageButton) view.findViewById(R.id.btnleft);
         btnright = (ImageButton) view.findViewById(R.id.btnright);
+        dateText.setText(getToday());
+        dateText.setEnabled(false);
 
+        all_coast_text = (TextView) view.findViewById(R.id.all_coast_text);
+        all_income_text = (TextView) view.findViewById(R.id.all_income_text);
+        balance_text = (TextView) view.findViewById(R.id.balance_text);
         coast_listview = (ListView) view.findViewById(R.id.coast_listview);
         income_listview = (ListView) view.findViewById(R.id.income_listview);
         adapter = new ArrayAdapter<String>(getActivity(),R.layout.simple_list_item_1);
@@ -50,19 +58,24 @@ public class Day_coast_view extends Fragment {
         adapter2 = new ArrayAdapter<String>(getActivity(),R.layout.simple_list_item_1);
         income_listview.setAdapter(adapter2);
 
-        dateText.setText(getToday());
-        dateText.setEnabled(false);
-
         btnleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeDate(-1);
+                adapter.clear();
+                adapter2.clear();
+                listview_show();
+                all_text();
             }
         });
         btnright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeDate(1);
+                adapter.clear();
+                adapter2.clear();
+                listview_show();
+                all_text();
             }
         });
         btnTEST.setOnClickListener(new View.OnClickListener() {
@@ -75,24 +88,9 @@ public class Day_coast_view extends Fragment {
                 Toast.makeText(getActivity(), getString(R.string.go_new),Toast.LENGTH_SHORT).show();
             }
         });
-        all_coast_text = (TextView) view.findViewById(R.id.all_coast_text);
-        all_income_text = (TextView) view.findViewById(R.id.all_income_text);
         myDb = new MyDB(getActivity());
-
-        res = myDb.getCoastData();
-        while (res.moveToNext()) {
-                s = "   "+res.getString(3)+"              $  "+ res.getDouble(2);
-                adapter.add(s);
-                adapter.notifyDataSetChanged();
-        }
-        res2 = myDb.getIncomeData();
-        while (res2.moveToNext()) {
-            s = "   "+res2.getString(3)+"              $  "+ res2.getDouble(2);
-            adapter2.add(s);
-            adapter2.notifyDataSetChanged();
-        }
-        all_coast_text.setText(myDb.getDBcount()+"");
-        all_income_text.setText(myDb.getDBcount2()+"");
+        listview_show();
+        all_text();
         return view;
     }
 
@@ -110,6 +108,58 @@ public class Day_coast_view extends Fragment {
             dateText.setText(getToday());
         }
     }
-
+    private void listview_show(){
+        res = myDb.getCoastData();
+        res2 = myDb.getIncomeData();
+        String nowdate = dateText.getText().toString();
+        int flag;
+        while (res.moveToNext()) {
+            String s2 = res.getString(1);
+            flag = nowdate.compareTo(s2);
+            if(flag==0){
+                s = "   "+res.getString(3)+"              $  "+ res.getDouble(2);
+                adapter.add(s);
+                adapter.notifyDataSetChanged();
+            }
+        }
+        while (res2.moveToNext()) {
+            String s2 = res2.getString(1);
+            flag = nowdate.compareTo(s2);
+            if(flag==0){
+                s = "   "+res2.getString(3)+"              $  "+ res2.getDouble(2);
+                adapter2.add(s);
+                adapter2.notifyDataSetChanged();
+            }
+        }
+    }
+    private void all_text(){
+        res = myDb.getCoastData();
+        res2 = myDb.getIncomeData();
+        String nowdate = dateText.getText().toString();
+        int flag;
+        while (res.moveToNext()) {
+            String s2 = res.getString(1);
+            flag = nowdate.compareTo(s2);
+            if(flag==0){
+                allcoast = allcoast + res.getDouble(2);
+            }
+        }
+        while (res2.moveToNext()) {
+            String s2 = res2.getString(1);
+            flag = nowdate.compareTo(s2);
+            if(flag==0){
+                allincome = allincome + res2.getDouble(2);
+            }
+        }
+        allbalance = allincome-allcoast;
+        allcoast = Double.parseDouble(df.format(allcoast));
+        allincome = Double.parseDouble(df.format(allincome));
+        allbalance = Double.parseDouble(df.format(allbalance));
+        all_coast_text.setText(allcoast+"");
+        all_income_text.setText(allincome+"");
+        balance_text.setText(allbalance+"");
+        allbalance=0;
+        allincome=0;
+        allcoast=0;
+    }
 }
-
