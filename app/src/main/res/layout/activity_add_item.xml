@@ -307,48 +307,12 @@
         android:id="@+id/scrollView2"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2">
 
-        <TableLayout
+        <LinearLayout
+            android:id="@+id/layout_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <Button
-                    android:id="@+id/button12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
-
-                <Button
-                    android:id="@+id/button10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <Button
-                    android:id="@+id/button11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </TableLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
     </ScrollView>
 
     <android.support.constraint.ConstraintLayout

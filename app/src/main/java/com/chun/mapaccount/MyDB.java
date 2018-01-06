@@ -60,8 +60,14 @@ public class MyDB extends SQLiteOpenHelper {
     public synchronized void close() {
         super.close();
     }
-    public boolean delete(long rowId) { //刪除指定的資料
+    public boolean delete_coast(long rowId) { //刪除指定的資料
         return getWritableDatabase().delete(TABLE_NAME1, "ID" + "=" + rowId, null) > 0;
+    }
+    public boolean delete_income(long rowId) { //刪除指定的資料
+        return getWritableDatabase().delete(TABLE_NAME1, "ID" + "=" + rowId, null) > 0;
+    }
+    public boolean delete_item(long rowId) { //刪除指定的資料
+        return getWritableDatabase().delete(TABLE_NAME3, "ID" + "=" + rowId, null) > 0;
     }
     public void addCoast(String Date,double Coast ,String Item,double Latitude,double Longitude){
         ContentValues values = new ContentValues();
@@ -80,6 +86,12 @@ public class MyDB extends SQLiteOpenHelper {
         values.put("ITEM", Item.toString());
         getWritableDatabase().insert(TABLE_NAME2, null, values);
     }
+    public void addItem(String item_class,String Item){
+        ContentValues values = new ContentValues();
+        values.put("CLASS", item_class);
+        values.put("ITEM", Item);
+        getWritableDatabase().insert(TABLE_NAME3, null, values);
+    }
 
     public Cursor getCoastData() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -91,6 +103,11 @@ public class MyDB extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+TABLE_NAME2,null);
         return res;
     }
+    public Cursor getItemData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME3,null);
+        return res;
+    }
     public boolean updateCoastData(long rowId,String Date,double Coast ,String Item,double Latitude,double Longitude) {
         ContentValues values = new ContentValues();
         values.put("DATE", Date.toString());
@@ -99,6 +116,22 @@ public class MyDB extends SQLiteOpenHelper {
         values.put("LATITUDE",Latitude);
         values.put("LONGITUDE",Longitude);
         getWritableDatabase().update(TABLE_NAME1, values,"ID" + "=" + rowId, null);
+        return true;
+    }
+    public boolean updateIncomeData(long rowId,String Date,double Coast ,String Item) {
+        ContentValues values = new ContentValues();
+        values.put("DATE", Date.toString());
+        values.put("COAST", Coast);
+        values.put("ITEM", Item.toString());
+        getWritableDatabase().update(TABLE_NAME1, values,"ID" + "=" + rowId, null);
+        return true;
+    }
+    public boolean updateItemData(long rowId,String item_class,String item) {
+        ContentValues values = new ContentValues();
+        values.put("ID", rowId);
+        values.put("CLASS", item_class);
+        values.put("ITEM", item);
+        getWritableDatabase().update(TABLE_NAME3, values, "ID=" + rowId, null);
         return true;
     }
     public int getDBcount() {

@@ -16,5 +16,13 @@
     <string name="coast">支 出</string>
     <string name="income">收 入</string>
     <string name="go_new">開始新增</string>
+    <string name="please_input_item">請輸入項目</string>
+    <string name="item_name">項 目 名 稱</string>
+    <string name="new_input">新 增</string>
+    <string name="go_back">返 回</string>
+    <string name="edit_view">編 輯 項 目</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="edit">編 輯</string>
+    <string name="clear">刪 除</string>
+    <string name="finish">完 成</string>
 </resources>

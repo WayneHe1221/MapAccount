@@ -6,17 +6,20 @@ package com.chun.mapaccount;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -39,7 +42,9 @@ public class AddItem extends Activity {
     private double one = Double.NaN;
     private double two= 0;
     DecimalFormat decimalFormat = new DecimalFormat("#.#");
+    LinearLayout layout_item;
     MyDB myDb;
+    Cursor res;
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     @Override
@@ -47,6 +52,8 @@ public class AddItem extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
         myDb = new MyDB(AddItem.this);
+        //項目版面
+        layout_item = (LinearLayout) findViewById(R.id.layout_item);
         item_view = (TextView) findViewById(R.id.item_view);
 
         //支出收入轉換
@@ -55,8 +62,10 @@ public class AddItem extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(compoundButton.isChecked()){
+                    renew_table_show();
                     Toast.makeText(AddItem.this,getString(R.string.coast_show),Toast.LENGTH_SHORT).show();
                 } else{
+                    renew_table_show();
                     Toast.makeText(AddItem.this,getString(R.string.income_show),Toast.LENGTH_SHORT).show();
                 }
             }
@@ -424,7 +433,7 @@ public class AddItem extends Activity {
                 }else{calView.append("0");}
             }
         });
-
+        renew_table_show();
     }
 
     private void computeCalculation() {
@@ -482,4 +491,152 @@ public class AddItem extends Activity {
         return sdf.format(Calendar.getInstance().getTime());
     }
 
+    private void renew_table_show(){
+        res = myDb.getItemData();
+        String coast = "支出";
+        String income = "收入";
+        int num = 0;
+        String[] item_arrary =new String[60];
+        int flag;
+        while(res.moveToNext()){
+            String s1 = res.getString(1);
+            if(switch1.isChecked()){
+                flag = coast.compareTo(s1);
+                if(flag==0){
+                    item_arrary[num]=res.getString(2);
+                    num++;
+                }
+            }else{
+                flag = income.compareTo(s1);
+                if(flag==0){
+                    item_arrary[num]=res.getString(2);
+                    num++;
+                }
+            }
+        }
+        add_layout_show(num,item_arrary);
+    }
+    private void add_layout_show(int num ,String[] item_arrary){
+        final String s;
+        int count = 0;
+        int num1 = num/6;
+        int num2 = num%6;
+        for(int i = layout_item.getChildCount() ; i>=0 ; i-- ){
+            layout_item.removeView(layout_item.getChildAt(i));
+        }
+            for(int i = 0;i<num1;i++){
+                LinearLayout tr = new LinearLayout(this);
+                tr.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        140));
+                        /* Create a Button to be the row-content. */
+                final Button b1 = new Button(this);
+                b1.setText(item_arrary[count]);
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b1.getText().toString());
+                    }
+                });
+                b1.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                final Button b2 = new Button(this);
+                b2.setText(item_arrary[count]);
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b2.getText().toString());
+                    }
+                });
+                b2.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                final Button b3 = new Button(this);
+                b3.setText(item_arrary[count]);
+                b3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b3.getText().toString());
+                    }
+                });
+                b3.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                final Button b4 = new Button(this);
+                b4.setText(item_arrary[count]);
+                b4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b4.getText().toString());
+                    }
+                });
+                b4.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                final Button b5 = new Button(this);
+                b5.setText(item_arrary[count]);
+                b5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b5.getText().toString());
+                    }
+                });
+                b5.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                final Button b6 = new Button(this);
+                b6.setText(item_arrary[count]);
+                b6.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b6.getText().toString());
+                    }
+                });
+                b6.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                        /* Add Button to row. */
+
+                tr.addView(b1);
+                tr.addView(b2);
+                tr.addView(b3);
+                tr.addView(b4);
+                tr.addView(b5);
+                tr.addView(b6);
+              /* Add row to TableLayout. */
+                layout_item.addView(tr,new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        140));
+            }
+            LinearLayout tr2 = new LinearLayout(this);
+            tr2.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    140));
+        for(int i = 0;i<num2;i++){
+                        /* Create a Button to be the row-content. */
+            final Button b1 = new Button(this);
+            b1.setText(item_arrary[count]);
+            b1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    item_view.setText(b1.getText().toString());
+                }
+            });
+            b1.setLayoutParams(new LinearLayout.LayoutParams(
+                    180,
+                    LinearLayout.LayoutParams.FILL_PARENT));
+            count++;
+            tr2.addView(b1);
+        }
+        layout_item.addView(tr2,new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                140));
+    }
 }
