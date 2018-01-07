@@ -15,9 +15,7 @@ import static com.chun.mapaccount.R.string.app_name;
 public class MapAccount extends AppCompatActivity {
 
     private static final String TAG = "MapAcoount";
-
     private SectionsPageAdapter mSectionsPageAdapter;
-
     private ViewPager mViewPager;
 
     @Override
@@ -30,7 +28,7 @@ public class MapAccount extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mSectionsPageAdapter.addFragment(new In_putFragment(),getString(R.string.in_out));
+        mSectionsPageAdapter.addFragment(new In_putFragment(), getString(R.string.in_out));
         mSectionsPageAdapter.addFragment(new My_mapFragment(), getString(R.string.my_map));
         mViewPager.setAdapter(mSectionsPageAdapter);
 

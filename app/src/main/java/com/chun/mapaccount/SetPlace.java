@@ -23,10 +23,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 
 public class SetPlace extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
+
     private Button finish_setplace;
-
     private GoogleMap mMap;
-
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     @Override
@@ -59,14 +58,14 @@ public class SetPlace extends FragmentActivity implements OnMapReadyCallback, Ac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission to access the location is missing.
-            //PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, true);
-        } else if (mMap != null) {
-            // Access to the location has been granted to the app.
-            mMap.setMyLocationEnabled(true);
-        }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            // Permission to access the location is missing.
+//            //PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, true);
+//        } else if (mMap != null) {
+//            // Access to the location has been granted to the app.
+//            mMap.setMyLocationEnabled(true);
+//        }
         LatLng utaipei = new LatLng(25.035810, 121.513746);
         mMap.addMarker(new MarkerOptions().position(utaipei).title("天大地大北市大"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(utaipei, 17));
