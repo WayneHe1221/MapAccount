@@ -64,7 +64,7 @@ public class MyDB extends SQLiteOpenHelper {
         return getWritableDatabase().delete(TABLE_NAME1, "ID" + "=" + rowId, null) > 0;
     }
     public boolean delete_income(long rowId) { //刪除指定的資料
-        return getWritableDatabase().delete(TABLE_NAME1, "ID" + "=" + rowId, null) > 0;
+        return getWritableDatabase().delete(TABLE_NAME2, "ID" + "=" + rowId, null) > 0;
     }
     public boolean delete_item(long rowId) { //刪除指定的資料
         return getWritableDatabase().delete(TABLE_NAME3, "ID" + "=" + rowId, null) > 0;
