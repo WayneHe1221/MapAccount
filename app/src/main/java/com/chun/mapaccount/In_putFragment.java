@@ -39,8 +39,9 @@ public class In_putFragment extends Fragment {
         adapter.addFragment(year,getString(R.string.year));
         adapter.addFragment(month, getString(R.string.month));
         adapter.addFragment(day,getString(R.string.day));
-        adapter.getItemPosition(6);
+        //adapter.getItemPosition(1);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(2);
+        viewPager.setOffscreenPageLimit(0);
     }
 }
