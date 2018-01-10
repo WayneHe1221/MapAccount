@@ -7,6 +7,8 @@ package com.chun.mapaccount;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -561,78 +563,90 @@ public class AddItem extends Activity {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     140));
                         /* Create a Button to be the row-content. */
-            final Button b1 = new Button(this);
-            b1.setText(item_arrary[count]);
-            b1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    item_view.setText(b1.getText().toString());
-                }
-            });
-            b1.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.FILL_PARENT, 3));
-            count++;
-            final Button b2 = new Button(this);
-            b2.setText(item_arrary[count]);
-            b2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    item_view.setText(b2.getText().toString());
-                }
-            });
-            b2.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.FILL_PARENT, 3));
-            count++;
-            final Button b3 = new Button(this);
-            b3.setText(item_arrary[count]);
-            b3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    item_view.setText(b3.getText().toString());
-                }
-            });
-            b3.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.FILL_PARENT, 3));
-            count++;
-            final Button b4 = new Button(this);
-            b4.setText(item_arrary[count]);
-            b4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    item_view.setText(b4.getText().toString());
-                }
-            });
-            b4.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.FILL_PARENT, 3));
-            count++;
-            final Button b5 = new Button(this);
-            b5.setText(item_arrary[count]);
-            b5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    item_view.setText(b5.getText().toString());
-                }
-            });
-            b5.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.FILL_PARENT, 3));
-            count++;
-            final Button b6 = new Button(this);
-            b6.setText(item_arrary[count]);
-            b6.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    item_view.setText(b6.getText().toString());
-                }
-            });
-            b6.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.FILL_PARENT, 3));
-            count++;
+                final Button b1 = new Button(this);
+                b1.setText(item_arrary[count]);
+                b1.setTypeface(Typeface.SANS_SERIF,Typeface.BOLD);
+                b1.getBackground().setColorFilter(getResources().getColor(R.color.coloritem), android.graphics.PorterDuff.Mode.MULTIPLY );
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b1.getText().toString());
+                    }
+                });
+                b1.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                final Button b2 = new Button(this);
+                b2.setText(item_arrary[count]);
+                b2.setTypeface(Typeface.SANS_SERIF,Typeface.BOLD);
+                b2.getBackground().setColorFilter(getResources().getColor(R.color.coloritem), android.graphics.PorterDuff.Mode.MULTIPLY );
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b2.getText().toString());
+                    }
+                });
+                b2.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                final Button b3 = new Button(this);
+                b3.setText(item_arrary[count]);
+                b3.setTypeface(Typeface.SANS_SERIF,Typeface.BOLD);
+                b3.getBackground().setColorFilter(getResources().getColor(R.color.coloritem), android.graphics.PorterDuff.Mode.MULTIPLY );
+                b3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b3.getText().toString());
+                    }
+                });
+                b3.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                final Button b4 = new Button(this);
+                b4.setText(item_arrary[count]);
+                b4.setTypeface(Typeface.SANS_SERIF,Typeface.BOLD);
+                b4.getBackground().setColorFilter(getResources().getColor(R.color.coloritem), android.graphics.PorterDuff.Mode.MULTIPLY );
+                b4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b4.getText().toString());
+                    }
+                });
+                b4.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                final Button b5 = new Button(this);
+                b5.setText(item_arrary[count]);
+                b5.setTypeface(Typeface.SANS_SERIF,Typeface.BOLD);
+                b5.getBackground().setColorFilter(getResources().getColor(R.color.coloritem), android.graphics.PorterDuff.Mode.MULTIPLY );
+                b5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b5.getText().toString());
+                    }
+                });
+                b5.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
+                final Button b6 = new Button(this);
+                b6.setText(item_arrary[count]);
+                b6.setTypeface(Typeface.SANS_SERIF,Typeface.BOLD);
+                b6.getBackground().setColorFilter(getResources().getColor(R.color.coloritem), android.graphics.PorterDuff.Mode.MULTIPLY );
+                b6.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        item_view.setText(b6.getText().toString());
+                    }
+                });
+                b6.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.FILL_PARENT,3));
+                count++;
                         /* Add Button to row. */
 
             tr.addView(b1);
@@ -654,6 +668,8 @@ public class AddItem extends Activity {
                         /* Create a Button to be the row-content. */
             final Button b1 = new Button(this);
             b1.setText(item_arrary[count]);
+            b1.setTypeface(Typeface.SANS_SERIF,Typeface.BOLD);
+            b1.getBackground().setColorFilter(getResources().getColor(R.color.coloritem), android.graphics.PorterDuff.Mode.MULTIPLY );
             b1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -42,10 +43,18 @@ public class EditObj extends Activity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (compoundButton.isChecked()) {
                     renew_table_show();
-                    Toast.makeText(EditObj.this, getString(R.string.coast_show), Toast.LENGTH_SHORT).show();
-                } else {
+                    InputMethodManager inputMethodManager =(InputMethodManager)EditObj.this.getApplicationContext().
+                            getSystemService(EditObj.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
+                    edit_text.setText("");
+                    Toast.makeText(EditObj.this,getString(R.string.coast_show),Toast.LENGTH_SHORT).show();
+                } else{
                     renew_table_show();
-                    Toast.makeText(EditObj.this, getString(R.string.income_show), Toast.LENGTH_SHORT).show();
+                    InputMethodManager inputMethodManager =(InputMethodManager)EditObj.this.getApplicationContext().
+                            getSystemService(EditObj.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
+                    edit_text.setText("");
+                    Toast.makeText(EditObj.this,getString(R.string.income_show),Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -61,6 +70,9 @@ public class EditObj extends Activity {
         finish_edit_object.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(EditObj.this, AddItem.class);
+                startActivity(intent);
                 EditObj.this.finish();
             }
         });
@@ -123,18 +135,26 @@ public class EditObj extends Activity {
         } else {
             check2 = true;
         }
-        if (check == true && check2 == true) {
-            if (switch2.isChecked()) {
-                Toast.makeText(EditObj.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
-                myDb.addItem("支出", s);
-            } else {
-                Toast.makeText(EditObj.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
-                myDb.addItem("收入", s);
-            }
-        } else if (check == true && check2 == false) {
-            Toast.makeText(EditObj.this, "新增失敗 不能為空", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(EditObj.this, "新增失敗 已經有囉!!", Toast.LENGTH_SHORT).show();
+        if(check==true&&check2==true){
+                if (switch2.isChecked()){
+                    Toast.makeText(EditObj.this,getString(R.string.new_finish),Toast.LENGTH_SHORT).show();
+                    InputMethodManager inputMethodManager =(InputMethodManager)EditObj.this.getApplicationContext().
+                            getSystemService(EditObj.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
+                    myDb.addItem("支出",s);
+                    edit_text.setText("");
+                }else{
+                    Toast.makeText(EditObj.this,getString(R.string.new_finish),Toast.LENGTH_SHORT).show();
+                    InputMethodManager inputMethodManager =(InputMethodManager)EditObj.this.getApplicationContext().
+                            getSystemService(EditObj.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
+                    myDb.addItem("收入",s);
+                    edit_text.setText("");
+                }
+        }else if(check==true&&check2==false){
+            Toast.makeText(EditObj.this,"新增失敗 不能為空",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(EditObj.this,"新增失敗 已經有囉!!",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -195,20 +215,25 @@ public class EditObj extends Activity {
         final String item = itemm;
         final String item_class = itemm_class;
         AlertDialog.Builder editDialog = new AlertDialog.Builder(this);
-        editDialog.setTitle("--- Edit ---");
+        editDialog.setTitle("請編輯選項 : ");
 
         final EditText editText = new EditText(this);
         editText.setText(item);
+        editText.setTextColor(getResources().getColor(R.color.colorPrimary));
+        editText.setTextSize(20);
         editDialog.setView(editText);
 
-        editDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        editDialog.setPositiveButton("確 認", new DialogInterface.OnClickListener() {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
-                myDb.updateItemData(id, item_class, editText.getText().toString());
+                myDb.updateItemData(id,item_class,editText.getText().toString());
+                InputMethodManager inputMethodManager =(InputMethodManager)EditObj.this.getApplicationContext().
+                        getSystemService(EditObj.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 renew_table_show();
             }
         });
-        editDialog.setNegativeButton("Cancel", null);
+        editDialog.setNegativeButton("取 消",null);
         editDialog.show();
     }
 
