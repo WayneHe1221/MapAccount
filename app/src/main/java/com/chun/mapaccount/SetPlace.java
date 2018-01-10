@@ -22,8 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Created by Wayne on 2017/12/20.
  */
 
-public class SetPlace extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback{
-    private Button finish_setplace;
+public class SetPlace extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private Button finish_setplace;
     private GoogleMap mMap;
@@ -49,8 +48,8 @@ public class SetPlace extends FragmentActivity implements OnMapReadyCallback, Ac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-            LatLng utaipei = new LatLng(25.035810, 121.513746);
-            mMap.addMarker(new MarkerOptions().position(utaipei).title("天大地大北市大"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(utaipei, 17));
+        LatLng utaipei = new LatLng(25.035810, 121.513746);
+        mMap.addMarker(new MarkerOptions().position(utaipei).title("天大地大北市大"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(utaipei, 17));
     }
 }

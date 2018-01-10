@@ -32,8 +32,8 @@ public class Month_coast_view extends DialogFragment {
     private ImageButton btnleft;
     private ImageButton btnright;
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
-    private LinearLayout coast_listview,income_listview;
-    private TextView all_coast_text,all_income_text,balance_text;
+    private LinearLayout coast_listview, income_listview;
+    private TextView all_coast_text, all_income_text, balance_text;
     MyDB myDb;
     Cursor res;
     String s = "";
@@ -111,11 +111,11 @@ public class Month_coast_view extends DialogFragment {
         String nowdate = dateText.getText().toString();
         String[] split_date = nowdate.split("/");
         String[] split_dbdate;
-        int flag,flag2;
-        for(int i = coast_listview.getChildCount() ; i>=0 ; i-- ){
+        int flag, flag2;
+        for (int i = coast_listview.getChildCount(); i >= 0; i--) {
             coast_listview.removeView(coast_listview.getChildAt(i));
         }
-        for(int i = income_listview.getChildCount() ; i>=0 ; i-- ){
+        for (int i = income_listview.getChildCount(); i >= 0; i--) {
             income_listview.removeView(income_listview.getChildAt(i));
         }
         while (res.moveToNext()) {
@@ -123,8 +123,8 @@ public class Month_coast_view extends DialogFragment {
             split_dbdate = s2.split("/");
             flag = split_date[0].compareTo(split_dbdate[0]);
             flag2 = split_date[1].compareTo(split_dbdate[1]);
-            if(flag==0 && flag2==0){
-                add_table_show(coast_listview,res.getInt(0),res.getString(3),res.getDouble(2));
+            if (flag == 0 && flag2 == 0) {
+                add_table_show(coast_listview, res.getInt(0), res.getString(3), res.getDouble(2));
             }
         }
         while (res2.moveToNext()) {
@@ -132,15 +132,17 @@ public class Month_coast_view extends DialogFragment {
             split_dbdate = s2.split("/");
             flag = split_date[0].compareTo(split_dbdate[0]);
             flag2 = split_date[1].compareTo(split_dbdate[1]);
-            if(flag==0 && flag2==0){
-                add_table_show(income_listview,res2.getInt(0),res2.getString(3),res2.getDouble(2));
+            if (flag == 0 && flag2 == 0) {
+                add_table_show(income_listview, res2.getInt(0), res2.getString(3), res2.getDouble(2));
             }
         }
     }
-    public void setMyDB(MyDB myDB){
-        this.myDb=myDB;
+
+    public void setMyDB(MyDB myDB) {
+        this.myDb = myDB;
     }
-    private void all_text(){
+
+    private void all_text() {
         res = myDb.getCoastData();
         res2 = myDb.getIncomeData();
         String nowdate = dateText.getText().toString();
@@ -176,7 +178,8 @@ public class Month_coast_view extends DialogFragment {
         allincome = 0;
         allcoast = 0;
     }
-    private void add_table_show(LinearLayout listview,int idd,String itemm,double numm){
+
+    private void add_table_show(LinearLayout listview, int idd, String itemm, double numm) {
         final LinearLayout _view = listview;
         final int id = idd;
         final String item = itemm;
@@ -186,7 +189,7 @@ public class Month_coast_view extends DialogFragment {
         tr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                edit_item(_view,id,item,num);
+                edit_item(_view, id, item, num);
             }
         });
         tr.setLayoutParams(new LinearLayout.LayoutParams(
@@ -199,23 +202,24 @@ public class Month_coast_view extends DialogFragment {
         tv1.setTextColor(getResources().getColor(R.color.holo_blue_dark));
         tv1.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT,1));
+                LinearLayout.LayoutParams.FILL_PARENT, 1));
         TextView tv2 = new TextView(getContext());
         tv2.setTextSize(20);
-        tv2.setText("$ "+num);
+        tv2.setText("$ " + num);
         tv2.setTextColor(getResources().getColor(R.color.holo_blue_dark));
         tv2.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT,2));
+                LinearLayout.LayoutParams.FILL_PARENT, 2));
                         /* Add Button to row. */
         tr.addView(tv1);
         tr.addView(tv2);
               /* Add row to TableLayout. */
-        listview.addView(tr,new LinearLayout.LayoutParams(
+        listview.addView(tr, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 140));
     }
-    private void edit_item(LinearLayout listview,int idd,String itemm,double numm){
+
+    private void edit_item(LinearLayout listview, int idd, String itemm, double numm) {
         final LinearLayout _view = listview;
         final int id = idd;
         final String item = itemm;
@@ -224,7 +228,7 @@ public class Month_coast_view extends DialogFragment {
         editDialog.setTitle("你確定要 刪除 該項目嗎: ");
 
         final TextView editText = new TextView(getActivity());
-        editText.setText("  "+item+"       $  "+num);
+        editText.setText("  " + item + "       $  " + num);
         editText.setTextColor(getResources().getColor(R.color.colorPrimary));
         editText.setTextSize(20);
         editDialog.setView(editText);
@@ -232,18 +236,18 @@ public class Month_coast_view extends DialogFragment {
         editDialog.setPositiveButton("確 認", new DialogInterface.OnClickListener() {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
-                if(_view==coast_listview){
+                if (_view == coast_listview) {
                     myDb.delete_coast(id);
                     listview_show();
                     all_text();
-                }else{
+                } else {
                     myDb.delete_income(id);
                     listview_show();
                     all_text();
                 }
             }
         });
-        editDialog.setNegativeButton("取 消",null);
+        editDialog.setNegativeButton("取 消", null);
         editDialog.show();
     }
 }

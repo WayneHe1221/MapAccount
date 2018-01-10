@@ -37,7 +37,7 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public long getItemId(int position){
+    public long getItemId(int position) {
         int hashcode = mFragmentList.get(position).hashCode();
         return hashcode;
     }

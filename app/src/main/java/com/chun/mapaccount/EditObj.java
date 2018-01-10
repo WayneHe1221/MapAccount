@@ -43,18 +43,18 @@ public class EditObj extends Activity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (compoundButton.isChecked()) {
                     renew_table_show();
-                    InputMethodManager inputMethodManager =(InputMethodManager)EditObj.this.getApplicationContext().
+                    InputMethodManager inputMethodManager = (InputMethodManager) EditObj.this.getApplicationContext().
                             getSystemService(EditObj.INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
                     edit_text.setText("");
-                    Toast.makeText(EditObj.this,getString(R.string.coast_show),Toast.LENGTH_SHORT).show();
-                } else{
+                    Toast.makeText(EditObj.this, getString(R.string.coast_show), Toast.LENGTH_SHORT).show();
+                } else {
                     renew_table_show();
-                    InputMethodManager inputMethodManager =(InputMethodManager)EditObj.this.getApplicationContext().
+                    InputMethodManager inputMethodManager = (InputMethodManager) EditObj.this.getApplicationContext().
                             getSystemService(EditObj.INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
                     edit_text.setText("");
-                    Toast.makeText(EditObj.this,getString(R.string.income_show),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditObj.this, getString(R.string.income_show), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -135,26 +135,26 @@ public class EditObj extends Activity {
         } else {
             check2 = true;
         }
-        if(check==true&&check2==true){
-                if (switch2.isChecked()){
-                    Toast.makeText(EditObj.this,getString(R.string.new_finish),Toast.LENGTH_SHORT).show();
-                    InputMethodManager inputMethodManager =(InputMethodManager)EditObj.this.getApplicationContext().
-                            getSystemService(EditObj.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
-                    myDb.addItem("支出",s);
-                    edit_text.setText("");
-                }else{
-                    Toast.makeText(EditObj.this,getString(R.string.new_finish),Toast.LENGTH_SHORT).show();
-                    InputMethodManager inputMethodManager =(InputMethodManager)EditObj.this.getApplicationContext().
-                            getSystemService(EditObj.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
-                    myDb.addItem("收入",s);
-                    edit_text.setText("");
-                }
-        }else if(check==true&&check2==false){
-            Toast.makeText(EditObj.this,"新增失敗 不能為空",Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(EditObj.this,"新增失敗 已經有囉!!",Toast.LENGTH_SHORT).show();
+        if (check == true && check2 == true) {
+            if (switch2.isChecked()) {
+                Toast.makeText(EditObj.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
+                InputMethodManager inputMethodManager = (InputMethodManager) EditObj.this.getApplicationContext().
+                        getSystemService(EditObj.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
+                myDb.addItem("支出", s);
+                edit_text.setText("");
+            } else {
+                Toast.makeText(EditObj.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
+                InputMethodManager inputMethodManager = (InputMethodManager) EditObj.this.getApplicationContext().
+                        getSystemService(EditObj.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
+                myDb.addItem("收入", s);
+                edit_text.setText("");
+            }
+        } else if (check == true && check2 == false) {
+            Toast.makeText(EditObj.this, "新增失敗 不能為空", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(EditObj.this, "新增失敗 已經有囉!!", Toast.LENGTH_SHORT).show();
         }
     }
 
