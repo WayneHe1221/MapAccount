@@ -1,14 +1,19 @@
 package com.chun.mapaccount;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -19,7 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class My_mapFragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = "Tab1Fragment";
 
-    GoogleMap mGoogleMap;
+    private GoogleMap mMap;
     private MapView mMapView;
     private View mView;
     private Button btnTEST;
@@ -51,8 +56,12 @@ public class My_mapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
-        mGoogleMap = googleMap;
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        mMap = googleMap;
+        LatLng utaipei = new LatLng(25.035810, 121.513746);
+        mMap.addMarker(new MarkerOptions().position(utaipei).title("天大地大北市大"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(utaipei, 17));
+
+
     }
 
 }
