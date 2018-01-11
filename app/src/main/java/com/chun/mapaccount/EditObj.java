@@ -22,7 +22,7 @@ import android.widget.Toast;
  * Created by Wayne on 2017/12/20.
  */
 
-public class EditObj extends Activity {
+public class  EditObj extends Activity {
     private Button finish_edit_object, btn_new;
     private LinearLayout table_item;
     private TextView edit_text;

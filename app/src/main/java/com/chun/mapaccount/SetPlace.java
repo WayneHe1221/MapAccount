@@ -2,6 +2,7 @@ package com.chun.mapaccount;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -35,16 +37,21 @@ import com.orhanobut.logger.Logger;
 public class SetPlace extends FragmentActivity implements
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
+        OnMarkerClickListener,
+        GoogleMap.OnInfoWindowClickListener,
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
     private Button finish_setplace;
     private GoogleMap mMap;
     private Marker myLocation;
+    Marker layaBurger, familyMart, dingFong;
+    LatLng latLng_laya, latLng_family, latLng_df, nowLocal;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_UPDATE_MIN_DISTANCE = 1000;
     private static final int LOCATION_UPDATE_MIN_TIME = 50;
+    private int requestCode = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,13 @@ public class SetPlace extends FragmentActivity implements
             @Override
             public void onClick(View view) {
                 LatLng target = mMap.getCameraPosition().target;
-                Toast.makeText(SetPlace.this, "經度:" + target.longitude + ", 緯度:" + target.latitude, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SetPlace.this, "經度:" + target.longitude + ", 緯度:" + target.latitude, Toast.LENGTH_SHORT).show();
+                Intent intent = getIntent();
+                Bundle bundle = new Bundle();
+                bundle.putDouble("longitude",target.longitude);
+                bundle.putDouble("latitude",target.latitude);
+                intent.putExtras(bundle);
+                setResult(requestCode, intent); //requestCode需跟A.class的一樣
                 SetPlace.this.finish();
             }
         });
@@ -70,8 +83,17 @@ public class SetPlace extends FragmentActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng nowLocal = new LatLng(25.035810, 121.513746);
+        nowLocal = new LatLng(25.035810, 121.513746);
+        latLng_laya = new LatLng(25.037070, 121.514477);
+        latLng_family = new LatLng(25.037009, 121.514254);
+        latLng_df = new LatLng(25.037036, 121.514620);
+        layaBurger = mMap.addMarker(new MarkerOptions().position(latLng_laya).title("拉亞漢堡"));
+        familyMart = mMap.addMarker(new MarkerOptions().position(latLng_family).title("全家就是你家"));
+        dingFong = mMap.addMarker(new MarkerOptions().position(latLng_df).title("鼎豐快餐"));
         myLocation = mMap.addMarker(new MarkerOptions().position(nowLocal).title("目前選擇地點"));
+//        layaBurger.showInfoWindow();
+//        familyMart.showInfoWindow();
+//        dingFong.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation.getPosition(), 17));
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
@@ -82,7 +104,42 @@ public class SetPlace extends FragmentActivity implements
                 myLocation.setPosition(mMap.getCameraPosition().target);
             }
         });
+        mMap.setOnMarkerClickListener(SetPlace.this);
+        mMap.setOnInfoWindowClickListener(SetPlace.this);
     }
+
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+
+        // Return false to indicate that we have not consumed the event and that we wish
+        // for the default behavior to occur (which is for the camera to move such that the
+        // marker is centered and for the marker's info window to open, if it has one).
+        return false;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+        Intent intent = getIntent();
+        Bundle bundle = new Bundle();
+        if (marker.equals(layaBurger)) {
+            bundle.putDouble("longitude",latLng_laya.longitude);
+            bundle.putDouble("latitude",latLng_laya.latitude);
+        }else if(marker.equals(familyMart)){
+            bundle.putDouble("longitude",latLng_family.longitude);
+            bundle.putDouble("latitude",latLng_family.latitude);
+        }else if(marker.equals(dingFong)){
+            bundle.putDouble("longitude",latLng_df.longitude);
+            bundle.putDouble("latitude",latLng_df.latitude);
+        }else if(marker.equals(myLocation)){
+            bundle.putDouble("longitude", nowLocal.longitude);
+            bundle.putDouble("latitude", nowLocal.latitude);
+        }
+        intent.putExtras(bundle);
+        setResult(requestCode, intent); //requestCode需跟A.class的一樣
+        SetPlace.this.finish();
+    }
+
 
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -101,7 +158,7 @@ public class SetPlace extends FragmentActivity implements
         Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
-        return false;
+        return true;
     }
 
     @Override
@@ -110,8 +167,7 @@ public class SetPlace extends FragmentActivity implements
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
             return;
         }

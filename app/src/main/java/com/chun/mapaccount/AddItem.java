@@ -28,12 +28,13 @@ import java.util.Calendar;
 
 public class AddItem extends Activity {
     private Button finish_add_item, btn_setplace, btn_editObj;
-    private TextView calView, item_view, date_view;
+    private TextView calView, item_view, date_view, coordinate_view;
     private Button btnclear, btn9, btn8, btn7, btn6, btn5, btn4, btn3, btn2, btn1, btn0;
     private Button btndel, btndiv, btnmul, btnsub, btnadd, btnpoint, btnequ, date_chose;
     private Switch switch1;
     private boolean point = false;
-
+    private int requestCode = 1;
+    private double la ,lo ;
     private static char ADD = '+';
     private static char SUB = '-';
     private static char MUL = '*';
@@ -81,6 +82,8 @@ public class AddItem extends Activity {
                 showDatePickerDialog();
             }
         });
+        coordinate_view = (TextView) findViewById(R.id.coordinate);
+
         //完成按鈕
         finish_add_item = (Button) findViewById(R.id.finish_add_item);
         finish_add_item.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +94,7 @@ public class AddItem extends Activity {
                 //myDb.storyDB();
                 if (switch1.isChecked()) {
                     if (Double.parseDouble(calView.getText().toString()) > 0) {
-                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), 23.5423, 121.234);
+                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), la, lo);
                         Toast.makeText(AddItem.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
                     } else
                         Toast.makeText(AddItem.this, "新增失敗 金額錯誤", Toast.LENGTH_SHORT).show();
@@ -128,7 +131,7 @@ public class AddItem extends Activity {
                 Toast.makeText(AddItem.this, "選擇地點", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.setClass(AddItem.this, SetPlace.class);
-                startActivity(intent);
+                startActivityForResult(intent,requestCode);
             }
         });
         //計算結果顯示
@@ -686,4 +689,25 @@ public class AddItem extends Activity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 140));
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch(resultCode){//resultCode是剛剛妳A切換到B時設的resultCode
+            case 1://當B傳回來的Intent的requestCode 等於當初A傳出去的話
+                double longitude = data.getExtras().getDouble("longitude");
+                double latitude = data.getExtras().getDouble("latitude");
+                coordinate_view.setTextSize(16);
+                coordinate_view.setText("經度:" + longitude + "\n緯度:"+latitude + "");
+                la = longitude;
+                lo = latitude;
+                break;
+
+        }
+
+    }
+
+
+
+
 }
