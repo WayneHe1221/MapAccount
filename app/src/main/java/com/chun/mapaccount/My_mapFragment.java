@@ -3,6 +3,7 @@ package com.chun.mapaccount;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,13 +45,14 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
     private GoogleMap mMap;
     private MapView mMapView;
     private View mView;
-//    Marker layaBurger, familyMart, dingFong;
-//    LatLng latLng_laya, latLng_family, latLng_df;
+    Marker check;
+    LatLng latLng_check;
     private Button btnTEST;
     private LinearLayout cost_show;
     private Cursor res;
     MyDB myDb ;
     String s = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,18 +85,76 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         mMap = googleMap;
-        LatLng utaipei = new LatLng(25.035810, 121.513746);
-//        latLng_laya = new LatLng(25.037070, 121.514477);
-//        latLng_family = new LatLng(25.037009, 121.514254);
-//        latLng_df = new LatLng(25.037036, 121.514620);
-//        layaBurger = mMap.addMarker(new MarkerOptions().position(latLng_laya).title("拉亞漢堡"));
-//        familyMart = mMap.addMarker(new MarkerOptions().position(latLng_family).title("全家就是你家"));
-//        dingFong = mMap.addMarker(new MarkerOptions().position(latLng_df).title("鼎豐快餐"));
-        mMap.addMarker(new MarkerOptions().position(utaipei).title("天大地大北市大"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(utaipei, 17));
+        latLng_check = new LatLng(25.035810, 121.513746);
+        createMarker(25.031182, 121.512156, "2018/1/11", "好吃的晚餐", "2000Test");
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng_check, 17));
     }
 
-    public void createMarker(){
+    class CustomInfoWindowAdapter implements InfoWindowAdapter {
+
+        // These are both viewgroups containing an ImageView with id "badge" and two TextViews with id
+        // "title" and "snippet".
+        private final View mWindow;
+
+        private final View mContents;
+
+        CustomInfoWindowAdapter() {
+            mWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+            mContents = getLayoutInflater().inflate(R.layout.custom_info_contents, null);
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+//            if (mOptions.getCheckedRadioButtonId() != R.id.custom_info_window) {
+//                // This means that getInfoContents will be called.
+//                return null;
+//            }
+            render(marker, mWindow);
+            return mWindow;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+//            if (mOptions.getCheckedRadioButtonId() != R.id.custom_info_contents) {
+//                // This means that the default info contents will be used.
+//                return null;
+//            }
+            render(marker, mContents);
+            return mContents;
+        }
+
+        private void render(Marker marker, View view) {
+
+            String title = marker.getTitle();
+            TextView titleUi = ((TextView) view.findViewById(R.id.title));
+            if (title != null) {
+                // Spannable string allows us to edit the formatting of the text.
+                SpannableString titleText = new SpannableString(title);
+                titleText.setSpan(new ForegroundColorSpan(Color.BLACK), 0, titleText.length(), 0);
+                titleUi.setText(titleText);
+                titleUi.setTextSize(20);
+            } else {
+                titleUi.setText("");
+            }
+
+            String snippet = marker.getSnippet();
+            StringBuilder sb = new StringBuilder(snippet);
+            TextView snippetObj = (TextView) view.findViewById(R.id.snippetObj);
+            TextView snippetPrice = (TextView) view.findViewById(R.id.snippetPrice);
+            if (snippet != null) {
+                int stringA = 0, stringB = 0;
+                stringA = snippet.indexOf(":", 3) - 2;
+                snippetObj.setText(snippet.substring(0, stringA));
+                snippetPrice.setText(snippet.substring(stringA, snippet.length()));
+//                SpannableString snippetText = new SpannableString(sb.toString());
+//                snippetText.setSpan(new BackgroundColorSpan(Color.RED), beginA, endA, 0);
+//                snippetText.setSpan(new BackgroundColorSpan(Color.RED), beginB, snippetText.length(), 0);
+
+            } else {
+                snippetObj.setText("");
+                snippetPrice.setText("");
+            }
+        }
     }
     private void show_cost_to_click(){
         res = myDb.getCoastData();
@@ -215,4 +279,15 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 120));
     }
+
+    public void createMarker(double longitude, double latitude, String date, String obj, String price) {
+        mMap.clear();
+        latLng_check = new LatLng(longitude, latitude);
+        check = mMap.addMarker(new MarkerOptions()
+                .position(latLng_check)
+                .title(date)
+                .snippet("項目:" + obj + "金額:" + price));
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+    }
+
 }

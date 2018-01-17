@@ -45,8 +45,8 @@ public class SetPlace extends FragmentActivity implements
     private Button finish_setplace;
     private GoogleMap mMap;
     private Marker myLocation;
-    Marker layaBurger, familyMart, dingFong;
-    LatLng latLng_laya, latLng_family, latLng_df, nowLocal;
+    Marker layaBurger, familyMart, dingFong, check;
+    LatLng latLng_laya, latLng_family, latLng_df, nowLocal, latLng_check;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_UPDATE_MIN_DISTANCE = 1000;
@@ -62,7 +62,7 @@ public class SetPlace extends FragmentActivity implements
         mapFragment.getMapAsync(this);
 
 
-        finish_setplace = (Button) findViewById(R.id.finish_setplace);
+        finish_setplace = findViewById(R.id.finish_setplace);
         finish_setplace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,8 +70,8 @@ public class SetPlace extends FragmentActivity implements
                 //Toast.makeText(SetPlace.this, "經度:" + target.longitude + ", 緯度:" + target.latitude, Toast.LENGTH_SHORT).show();
                 Intent intent = getIntent();
                 Bundle bundle = new Bundle();
-                bundle.putDouble("longitude",target.longitude);
-                bundle.putDouble("latitude",target.latitude);
+                bundle.putDouble("longitude", target.longitude);
+                bundle.putDouble("latitude", target.latitude);
                 intent.putExtras(bundle);
                 setResult(requestCode, intent); //requestCode需跟A.class的一樣
                 SetPlace.this.finish();
@@ -122,19 +122,8 @@ public class SetPlace extends FragmentActivity implements
 
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
-        if (marker.equals(layaBurger)) {
-            bundle.putDouble("longitude",latLng_laya.longitude);
-            bundle.putDouble("latitude",latLng_laya.latitude);
-        }else if(marker.equals(familyMart)){
-            bundle.putDouble("longitude",latLng_family.longitude);
-            bundle.putDouble("latitude",latLng_family.latitude);
-        }else if(marker.equals(dingFong)){
-            bundle.putDouble("longitude",latLng_df.longitude);
-            bundle.putDouble("latitude",latLng_df.latitude);
-        }else if(marker.equals(myLocation)){
-            bundle.putDouble("longitude", nowLocal.longitude);
-            bundle.putDouble("latitude", nowLocal.latitude);
-        }
+        bundle.putDouble("longitude", marker.getPosition().longitude);
+        bundle.putDouble("latitude", marker.getPosition().latitude);
         intent.putExtras(bundle);
         setResult(requestCode, intent); //requestCode需跟A.class的一樣
         SetPlace.this.finish();
@@ -155,10 +144,13 @@ public class SetPlace extends FragmentActivity implements
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        mMap.clear();
+        //Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        createMarker(25.035810, 121.513746, "2018/1/11", "好吃的晚餐", "2000Test");
+
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
-        return true;
+        return false;
     }
 
     @Override
@@ -198,4 +190,16 @@ public class SetPlace extends FragmentActivity implements
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog.newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
+
+    public void createMarker(double longitude, double latitude, String date, String obj, String price) {
+        check = mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(longitude, latitude))
+                .title(date)
+                .snippet("項目:" + obj + "\n金額:" + price));
+        Toast.makeText(this, "Build Successfully", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+
 }
