@@ -27,7 +27,7 @@ import java.util.Calendar;
 
 
 public class AddItem extends Activity {
-    private Button finish_add_item, btn_setplace, btn_editObj;
+    private Button textView4, btn_setplace, btn_editObj,back_btm;
     private TextView calView, item_view, date_view, coordinate_view;
     private Button btnclear, btn9, btn8, btn7, btn6, btn5, btn4, btn3, btn2, btn1, btn0;
     private Button btndel, btndiv, btnmul, btnsub, btnadd, btnpoint, btnequ, date_chose;
@@ -85,26 +85,32 @@ public class AddItem extends Activity {
         coordinate_view = (TextView) findViewById(R.id.coordinate);
 
         //完成按鈕
-        finish_add_item = (Button) findViewById(R.id.finish_add_item);
-        finish_add_item.setOnClickListener(new View.OnClickListener() {
+        textView4 = (Button) findViewById(R.id.textView4);
+        textView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //myDb.addCoast("2018/01/02",Double.parseDouble(calView.getText().toString()),item_view.getText().toString(),23.5423,121.234);
                 //myDb.delete(1);
                 //myDb.storyDB();
                 if (switch1.isChecked()) {
-                    if (Double.parseDouble(calView.getText().toString()) > 0) {
-                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), la, lo);
+                    if (isNumeric(calView.getText().toString())) {
+                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), la, lo,coordinate_view.getText().toString());
                         Toast.makeText(AddItem.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
                     } else
-                        Toast.makeText(AddItem.this, "新增失敗 金額錯誤", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddItem.this, "輸入錯誤  請輸入正確金額\n  不含符號數 並請大於0", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (Double.parseDouble(calView.getText().toString()) > 0) {
+                    if (isNumeric(calView.getText().toString())) {
                         myDb.addIncome(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString());
                         Toast.makeText(AddItem.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
                     } else
-                        Toast.makeText(AddItem.this, "新增失敗 金額錯誤", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddItem.this, "輸入錯誤  請輸入正確金額\n  不含符號數 並請大於0", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        back_btm = (Button) findViewById(R.id.finish_add_item);
+        back_btm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(AddItem.this, MapAccount.class);
                 startActivity(intent);
@@ -341,14 +347,17 @@ public class AddItem extends Activity {
             public void onClick(View arg0) {
 
                 //判斷案等於鍵  CALCULATE = '1' 是以防使用者重複按等於鍵  判斷save是看是否為一開始就按等於
-                if (save != null && CALCULATE != '1') {
+                if (save != null && CALCULATE != '1' && calView.getText().toString().equals(save)){
+                    calView.setText(decimalFormat.format(one));
+                    CALCULATE = '1';
+                }else if (save != null && CALCULATE != '1') {
                     computeCalculation();
                     calView.setText(decimalFormat.format(one));
                     CALCULATE = '1';
                 } else if (CALCULATE == '1') {
                     calView.setText(calView.getText());
                     CALCULATE = '1';
-                } else {
+                }else{
                     computeCalculation();
                     calView.setText(decimalFormat.format(one));
                     CALCULATE = '1';
@@ -706,8 +715,18 @@ public class AddItem extends Activity {
         }
 
     }
-
-
-
-
+    public static boolean isNumeric(String str){
+        for(int i=str.length();--i>=0;){
+            int chr=str.charAt(i);
+            if(chr<48 || chr>57)
+                return false;
+        }
+        if(null == str || "".equals(str)){
+            return false;
+        }
+        if(Double.parseDouble(str) <= 0){
+            return false;
+        }
+        return true;
+    }
 }

@@ -25,7 +25,6 @@ public class In_putFragment extends Fragment {
         tabLayout = (TabLayout) view.findViewById(R.id.day_tabs);
         initdata(mViewPager);
         tabLayout.setupWithViewPager(mViewPager);
-
         return view;
     }
 

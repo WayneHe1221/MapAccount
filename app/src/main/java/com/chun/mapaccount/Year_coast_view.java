@@ -188,7 +188,7 @@ public class Year_coast_view extends DialogFragment {
         });
         tr.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                140));
+                110));
                         /* Create a Button to be the row-content. */
         TextView tv1 = new TextView(getContext());
         tv1.setTextSize(20);
@@ -196,21 +196,21 @@ public class Year_coast_view extends DialogFragment {
         tv1.setTextColor(getResources().getColor(R.color.holo_blue_dark));
         tv1.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT, 1));
+                LinearLayout.LayoutParams.FILL_PARENT, 2));
         TextView tv2 = new TextView(getContext());
         tv2.setTextSize(20);
         tv2.setText("$ " + num);
         tv2.setTextColor(getResources().getColor(R.color.holo_blue_dark));
         tv2.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT, 2));
+                LinearLayout.LayoutParams.FILL_PARENT, 3));
                         /* Add Button to row. */
         tr.addView(tv1);
         tr.addView(tv2);
               /* Add row to TableLayout. */
         listview.addView(tr, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                140));
+                110));
     }
 
     private void edit_item(LinearLayout listview, int idd, String itemm, double numm) {
@@ -232,8 +232,9 @@ public class Year_coast_view extends DialogFragment {
             public void onClick(DialogInterface arg0, int arg1) {
                 if (_view == coast_listview) {
                     myDb.delete_coast(id);
-                    listview_show();
-                    all_text();
+                    Intent intent = getActivity().getIntent();
+                    getActivity().finish();
+                    startActivity(intent);
                 } else {
                     myDb.delete_income(id);
                     listview_show();

@@ -282,14 +282,14 @@
             app:layout_constraintLeft_toRightOf="@+id/textView4"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <TextView
+        <Button
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:background="@color/bgColor"
-            android:text="金額"
+            android:text="完成"
             android:textColor="@android:color/background_light"
             android:textSize="40sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -351,9 +351,9 @@
             android:id="@+id/coordinate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="台北市中正區愛"
+            android:text="台北市中正區愛國西路1號"
             android:textAlignment="center"
-            android:textSize="36sp"
+            android:textSize="24sp"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintLeft_toRightOf="@+id/finish_add_item"
             app:layout_constraintRight_toRightOf="parent"
@@ -373,7 +373,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:text="完成"
+            android:text="返回"
             android:textColor="@android:color/background_light"
             android:textSize="24sp"
             app:layout_constraintLeft_toLeftOf="@+id/date_view"
