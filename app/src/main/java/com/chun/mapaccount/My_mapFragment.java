@@ -50,7 +50,7 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
     private Button btnTEST;
     private LinearLayout cost_show;
     private Cursor res;
-    MyDB myDb ;
+    MyDB myDb;
     String s = "";
 
     @Override
@@ -62,7 +62,7 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.my_mapfragment, container, false);
-        cost_show=(LinearLayout) mView.findViewById(R.id.cost_show);
+        cost_show = (LinearLayout) mView.findViewById(R.id.cost_show);
         myDb = new MyDB(getActivity());
         show_cost_to_click();
         return mView;
@@ -73,7 +73,6 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
         super.onViewCreated(view, savedInstanceState);
         mMapView = (MapView) mView.findViewById(R.id.map);
 
-
         if (mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
@@ -81,13 +80,16 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
         }
 
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         mMap = googleMap;
-        latLng_check = new LatLng(25.035810, 121.513746);
-        createMarker(25.031182, 121.512156, "2018/1/11", "好吃的晚餐", "2000Test");
+        //latLng_check = new LatLng(25.035810, 121.513746);
+        createMarker(25.031182, 121.512156, "2018/1/11", "好吃的晚餐", 2000, "天大地大我家最大的北市大");
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng_check, 17));
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+
     }
 
     class CustomInfoWindowAdapter implements InfoWindowAdapter {
@@ -141,24 +143,36 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
             StringBuilder sb = new StringBuilder(snippet);
             TextView snippetObj = (TextView) view.findViewById(R.id.snippetObj);
             TextView snippetPrice = (TextView) view.findViewById(R.id.snippetPrice);
+            TextView snippetAddress = (TextView) view.findViewById(R.id.snippetAddress);
             if (snippet != null) {
-                int stringA = 0, stringB = 0;
-                stringA = snippet.indexOf(":", 3) - 2;
-                snippetObj.setText(snippet.substring(0, stringA));
-                snippetPrice.setText(snippet.substring(stringA, snippet.length()));
-//                SpannableString snippetText = new SpannableString(sb.toString());
-//                snippetText.setSpan(new BackgroundColorSpan(Color.RED), beginA, endA, 0);
-//                snippetText.setSpan(new BackgroundColorSpan(Color.RED), beginB, snippetText.length(), 0);
+                int count = 0;
+                count = snippet.indexOf(":", 3) - 2;
+
+                SpannableString spanObj = new SpannableString(snippet.substring(0, count));
+                SpannableString spanPrice = new SpannableString(snippet.substring(count, snippet.indexOf(":", count + 3) - 2));
+                SpannableString spanAddress = new SpannableString(snippet.substring(snippet.indexOf(":", count + 3) - 2, snippet.length()));
+//                spanObj.setSpan(new BackgroundColorSpan(Color.RED), spanObj.toString().indexOf(":") + 1, spanObj.length(), 0);
+//                spanObj.setSpan(new ForegroundColorSpan(Color.WHITE), spanObj.toString().indexOf(":") + 1, spanObj.length(), 0);
+//                spanPrice.setSpan(new BackgroundColorSpan(Color.RED), spanPrice.toString().indexOf(":") + 1, spanPrice.length(), 0);
+//                spanPrice.setSpan(new ForegroundColorSpan(Color.WHITE), spanPrice.toString().indexOf(":") + 1, spanPrice.length(), 0);
+                snippetObj.setText(spanObj);
+                snippetPrice.setText(spanPrice);
+                snippetAddress.setText(spanAddress);
 
             } else {
                 snippetObj.setText("");
                 snippetPrice.setText("");
+                snippetAddress.setText("");
             }
+            snippetObj.setTextColor(Color.BLACK);
+            snippetPrice.setTextColor(Color.BLACK);
+            snippetAddress.setTextColor(Color.BLACK);
         }
     }
-    private void show_cost_to_click(){
+
+    private void show_cost_to_click() {
         res = myDb.getCoastData();
-        int[] datearrary= new int[100];
+        int[] datearrary = new int[100];
         int count = 0;
         boolean putid = false;
         int[] idarrary = new int[100];
@@ -172,47 +186,49 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
             int year = Integer.parseInt(splitarrary[0]);
             int month = Integer.parseInt(splitarrary[1]);
             int day = Integer.parseInt(splitarrary[2]);
-            datearrary[count]=year*10000+month*100+day;
+            datearrary[count] = year * 10000 + month * 100 + day;
             count++;
         }
         Arrays.sort(datearrary);
-        count=0;
-        for(int i=datearrary.length;i>0;i--){
-            int k = datearrary[i-1];
+        count = 0;
+        for (int i = datearrary.length; i > 0; i--) {
+            int k = datearrary[i - 1];
             res = myDb.getCoastData();
-            while (res.moveToNext()){
+            while (res.moveToNext()) {
                 String s2 = res.getString(1);
                 splitarrary = s2.split("/");
                 int year = Integer.parseInt(splitarrary[0]);
                 int month = Integer.parseInt(splitarrary[1]);
                 int day = Integer.parseInt(splitarrary[2]);
-                int date=year*10000+month*100+day;
-                if(date == k){
+                int date = year * 10000 + month * 100 + day;
+                if (date == k) {
                     putid = true;
-                    for(int j = 0 ; j < idarrary.length;j++){
-                        if(idarrary[j]==res.getInt(0)){
+                    for (int j = 0; j < idarrary.length; j++) {
+                        if (idarrary[j] == res.getInt(0)) {
                             putid = false;
                         }
                     }
-                    if(putid){
-                        idarrary[count]=res.getInt(0);
+                    if (putid) {
+                        idarrary[count] = res.getInt(0);
                         putid = false;
                         count++;
                     }
                 }
             }
         }
-        for(int i = 0 ; i<idarrary.length;i++){
-            if(idarrary[i]==0){}
+        for (int i = 0; i < idarrary.length; i++) {
+            if (idarrary[i] == 0) {
+            }
             res = myDb.getCoastData();
             while (res.moveToNext()) {
-                if(idarrary[i]==res.getInt(0)){
-                    add_table_show(res.getString(1),res.getString(3),res.getDouble(2),res.getString(6));
+                if (idarrary[i] == res.getInt(0)) {
+                    add_table_show(res.getString(1), res.getString(3), res.getDouble(2), res.getString(6), new LatLng(res.getDouble(4), res.getDouble(5)));
                 }
             }
         }
     }
-    private void add_table_show(String datee,String itemm, double numm,String placee) {
+
+    private void add_table_show(String datee, String itemm, double numm, String placee, final LatLng coordinate) {
         final String date = datee;
         final String item = itemm;
         final double num = numm;
@@ -223,8 +239,10 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
         tr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),item+"  $ "+num, Toast.LENGTH_SHORT).show();
-                createMarker();
+                Toast.makeText(getActivity(), item + "  $ " + num, Toast.LENGTH_SHORT).show();
+                //mMap.clear();
+                createMarker(coordinate.latitude, coordinate.longitude, date, item, num, place);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17));
             }
         });
         tr.setLayoutParams(new LinearLayout.LayoutParams(
@@ -240,33 +258,33 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
                 60));
                         /* Create a Button to be the row-content. */
         TextView tv0 = new TextView(getContext());
-        tv0.setTextSize(20);
+        tv0.setTextSize(18);
         tv0.setText(date);
         tv0.setTextColor(getResources().getColor(R.color.holo_blue_dark));
         tv0.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT,1));
+                LinearLayout.LayoutParams.FILL_PARENT, 1));
         TextView tv1 = new TextView(getContext());
-        tv1.setTextSize(20);
+        tv1.setTextSize(18);
         tv1.setText(item);
         tv1.setTextColor(getResources().getColor(R.color.holo_blue_dark));
         tv1.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT,1));
+                LinearLayout.LayoutParams.FILL_PARENT, 1));
         TextView tv2 = new TextView(getContext());
-        tv2.setTextSize(20);
-        tv2.setText("$ "+num);
+        tv2.setTextSize(18);
+        tv2.setText("$ " + num);
         tv2.setTextColor(getResources().getColor(R.color.holo_blue_dark));
         tv2.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT,1));
+                LinearLayout.LayoutParams.FILL_PARENT, 1));
         TextView tv3 = new TextView(getContext());
-        tv3.setTextSize(20);
-        tv3.setText("地點:  "+place);
+        tv3.setTextSize(18);
+        tv3.setText("地點:  " + place);
         tv3.setTextColor(getResources().getColor(R.color.colorAccent));
         tv3.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT,1));
+                LinearLayout.LayoutParams.FILL_PARENT, 1));
                         /* Add Button to row. */
         ttr1.addView(tv0);
         ttr1.addView(tv1);
@@ -275,19 +293,18 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
         tr.addView(ttr1);
         tr.addView(ttr2);
               /* Add row to TableLayout. */
-        cost_show.addView(tr,new LinearLayout.LayoutParams(
+        cost_show.addView(tr, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 120));
     }
 
-    public void createMarker(double longitude, double latitude, String date, String obj, String price) {
+    public void createMarker(double latitude, double longitude, String date, String obj, double price, String address) {
         mMap.clear();
-        latLng_check = new LatLng(longitude, latitude);
+        latLng_check = new LatLng(latitude, longitude);
         check = mMap.addMarker(new MarkerOptions()
                 .position(latLng_check)
                 .title(date)
-                .snippet("項目:" + obj + "金額:" + price));
-        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+                .snippet("項目:" + obj + "金額:" + price + "地址:" + address));
     }
 
 }

@@ -94,7 +94,7 @@ public class AddItem extends Activity {
                 //myDb.storyDB();
                 if (switch1.isChecked()) {
                     if (isNumeric(calView.getText().toString())) {
-                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), la, lo,coordinate_view.getText().toString());
+                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), la, lo, coordinate_view.getText().toString());
                         Toast.makeText(AddItem.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
                     } else
                         Toast.makeText(AddItem.this, "輸入錯誤  請輸入正確金額\n  不含符號數 並請大於0", Toast.LENGTH_SHORT).show();
@@ -706,10 +706,11 @@ public class AddItem extends Activity {
             case 1://當B傳回來的Intent的requestCode 等於當初A傳出去的話
                 double longitude = data.getExtras().getDouble("longitude");
                 double latitude = data.getExtras().getDouble("latitude");
-                coordinate_view.setTextSize(16);
-                coordinate_view.setText("經度:" + longitude + "\n緯度:"+latitude + "");
-                la = longitude;
-                lo = latitude;
+                String address = data.getExtras().getString("address");
+                coordinate_view.setText(address);
+                coordinate_view.setTextSize(20);
+                lo = longitude;
+                la = latitude;
                 break;
 
         }

@@ -22,7 +22,7 @@ import android.widget.Toast;
  * Created by Wayne on 2017/12/20.
  */
 
-public class  EditObj extends Activity {
+public class EditObj extends Activity {
     private Button finish_edit_object, btn_new;
     private LinearLayout table_item;
     private TextView edit_text;
@@ -220,20 +220,20 @@ public class  EditObj extends Activity {
         final EditText editText = new EditText(this);
         editText.setText(item);
         editText.setTextColor(getResources().getColor(R.color.colorPrimary));
-        editText.setTextSize(20);
+        editText.setTextSize(16);
         editDialog.setView(editText);
 
         editDialog.setPositiveButton("確 認", new DialogInterface.OnClickListener() {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
-                myDb.updateItemData(id,item_class,editText.getText().toString());
-                InputMethodManager inputMethodManager =(InputMethodManager)EditObj.this.getApplicationContext().
+                myDb.updateItemData(id, item_class, editText.getText().toString());
+                InputMethodManager inputMethodManager = (InputMethodManager) EditObj.this.getApplicationContext().
                         getSystemService(EditObj.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 renew_table_show();
             }
         });
-        editDialog.setNegativeButton("取 消",null);
+        editDialog.setNegativeButton("取 消", null);
         editDialog.show();
     }
 

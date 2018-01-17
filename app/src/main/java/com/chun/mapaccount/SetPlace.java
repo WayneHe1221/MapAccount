@@ -1,12 +1,12 @@
 package com.chun.mapaccount;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.design.widget.Snackbar;
 import android.support.annotation.NonNull;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
@@ -27,7 +27,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.orhanobut.logger.Logger;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -42,11 +45,12 @@ public class SetPlace extends FragmentActivity implements
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private Button finish_setplace;
     private GoogleMap mMap;
     private Marker myLocation;
     Marker layaBurger, familyMart, dingFong, check;
     LatLng latLng_laya, latLng_family, latLng_df, nowLocal, latLng_check;
+    Geocoder geocoder;
+    List<Address> addresses;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_UPDATE_MIN_DISTANCE = 1000;
@@ -61,28 +65,12 @@ public class SetPlace extends FragmentActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2);
         mapFragment.getMapAsync(this);
 
-
-        finish_setplace = findViewById(R.id.finish_setplace);
-        finish_setplace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LatLng target = mMap.getCameraPosition().target;
-                //Toast.makeText(SetPlace.this, "經度:" + target.longitude + ", 緯度:" + target.latitude, Toast.LENGTH_SHORT).show();
-                Intent intent = getIntent();
-                Bundle bundle = new Bundle();
-                bundle.putDouble("longitude", target.longitude);
-                bundle.putDouble("latitude", target.latitude);
-                intent.putExtras(bundle);
-                setResult(requestCode, intent); //requestCode需跟A.class的一樣
-                SetPlace.this.finish();
-            }
-        });
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        geocoder = new Geocoder(this, Locale.getDefault());
         nowLocal = new LatLng(25.035810, 121.513746);
         latLng_laya = new LatLng(25.037070, 121.514477);
         latLng_family = new LatLng(25.037009, 121.514254);
@@ -91,9 +79,6 @@ public class SetPlace extends FragmentActivity implements
         familyMart = mMap.addMarker(new MarkerOptions().position(latLng_family).title("全家就是你家"));
         dingFong = mMap.addMarker(new MarkerOptions().position(latLng_df).title("鼎豐快餐"));
         myLocation = mMap.addMarker(new MarkerOptions().position(nowLocal).title("目前選擇地點"));
-//        layaBurger.showInfoWindow();
-//        familyMart.showInfoWindow();
-//        dingFong.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation.getPosition(), 17));
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
@@ -119,11 +104,17 @@ public class SetPlace extends FragmentActivity implements
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-
+        geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
         bundle.putDouble("longitude", marker.getPosition().longitude);
         bundle.putDouble("latitude", marker.getPosition().latitude);
+        bundle.putString("address", addresses.get(0).getAddressLine(0));
         intent.putExtras(bundle);
         setResult(requestCode, intent); //requestCode需跟A.class的一樣
         SetPlace.this.finish();
@@ -199,7 +190,5 @@ public class SetPlace extends FragmentActivity implements
         Toast.makeText(this, "Build Successfully", Toast.LENGTH_SHORT).show();
 
     }
-
-
 
 }
