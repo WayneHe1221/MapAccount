@@ -94,7 +94,7 @@ public class AddItem extends Activity {
                 //myDb.storyDB();
                 if (switch1.isChecked()) {
                     if (isNumeric(calView.getText().toString())) {
-                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), la, lo, coordinate_view.getText().toString());
+                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), la, lo, coordinate_view.getText().toString(),"00");
                         Toast.makeText(AddItem.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
                     } else
                         Toast.makeText(AddItem.this, "輸入錯誤  請輸入正確金額\n  不含符號數 並請大於0", Toast.LENGTH_SHORT).show();

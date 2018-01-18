@@ -30,6 +30,7 @@ public class MyDB extends SQLiteOpenHelper {
                 "ITEM TEXT(20), " +
                 "LATITUDE REAL, " +
                 "LONGITUDE REAL," +
+                "ADDRESS TEXT(30),"+
                 "PLACENAME TEXT(30) );";
         final String INIT_TABLE2 = "CREATE TABLE " + TABLE_NAME2 + " (" +
                 "ID   INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
@@ -77,13 +78,14 @@ public class MyDB extends SQLiteOpenHelper {
         return getWritableDatabase().delete(TABLE_NAME3, "ID" + "=" + rowId, null) > 0;
     }
 
-    public void addCoast(String Date, double Coast, String Item, double Latitude, double Longitude,String Place) {
+    public void addCoast(String Date, double Coast, String Item, double Latitude, double Longitude,String Address,String Place) {
         ContentValues values = new ContentValues();
         values.put("DATE", Date.toString());
         values.put("COAST", Coast);
         values.put("ITEM", Item.toString());
         values.put("LATITUDE", Latitude);
         values.put("LONGITUDE", Longitude);
+        values.put("ADDRESS", Address);
         values.put("PLACENAME", Place);
         getWritableDatabase().insert(TABLE_NAME1, null, values);
     }
