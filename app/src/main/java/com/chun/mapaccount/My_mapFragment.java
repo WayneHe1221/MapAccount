@@ -85,8 +85,16 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         mMap = googleMap;
-        //latLng_check = new LatLng(25.035810, 121.513746);
-        createMarker(25.031182, 121.512156, "2018/1/11", "好吃的晚餐", 2000, "天大地大我家最大的北市大");
+        latLng_check = new LatLng(25.035810, 121.513746);
+        //createMarker(25.035810, 121.513746, "2018/1/11", "好吃的晚餐", 2000, "天大地大我家最大的北市大");
+        res = myDb.getCoastData();
+        while (res.moveToNext()) {
+            latLng_check = new LatLng(res.getDouble(4), res.getDouble(5));
+            check = mMap.addMarker(new MarkerOptions()
+                    .position(latLng_check)
+                    .title(res.getString(1))
+                    .snippet("項目:" + res.getString(3) + "金額:" + res.getDouble(2) + "地址:" + res.getString(6)));
+        }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng_check, 17));
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
 
@@ -299,7 +307,7 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
     }
 
     public void createMarker(double latitude, double longitude, String date, String obj, double price, String address) {
-        mMap.clear();
+        //mMap.clear();
         latLng_check = new LatLng(latitude, longitude);
         check = mMap.addMarker(new MarkerOptions()
                 .position(latLng_check)

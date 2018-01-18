@@ -51,6 +51,7 @@ public class SetPlace extends FragmentActivity implements
     LatLng latLng_laya, latLng_family, latLng_df, nowLocal, latLng_check;
     Geocoder geocoder;
     List<Address> addresses;
+    String place_name;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_UPDATE_MIN_DISTANCE = 1000;
@@ -76,7 +77,7 @@ public class SetPlace extends FragmentActivity implements
         latLng_family = new LatLng(25.037009, 121.514254);
         latLng_df = new LatLng(25.037036, 121.514620);
         layaBurger = mMap.addMarker(new MarkerOptions().position(latLng_laya).title("拉亞漢堡"));
-        familyMart = mMap.addMarker(new MarkerOptions().position(latLng_family).title("全家就是你家"));
+        familyMart = mMap.addMarker(new MarkerOptions().position(latLng_family).title("全家超商"));
         dingFong = mMap.addMarker(new MarkerOptions().position(latLng_df).title("鼎豐快餐"));
         myLocation = mMap.addMarker(new MarkerOptions().position(nowLocal).title("目前選擇地點"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation.getPosition(), 17));
@@ -106,9 +107,9 @@ public class SetPlace extends FragmentActivity implements
     public void onInfoWindowClick(Marker marker) {
         geocoder = new Geocoder(this, Locale.getDefault());
         try {
-            addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
+        addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
         } catch (IOException e) {
-            e.printStackTrace();
+        e.printStackTrace();
         }
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
@@ -135,9 +136,9 @@ public class SetPlace extends FragmentActivity implements
 
     @Override
     public boolean onMyLocationButtonClick() {
-        mMap.clear();
+        //mMap.clear();
         //Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
-        createMarker(25.035810, 121.513746, "2018/1/11", "好吃的晚餐", "2000Test");
+        //createMarker(25.035810, 121.513746, "2018/1/11", "好吃的晚餐", "2000Test");
 
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
