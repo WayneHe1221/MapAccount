@@ -338,9 +338,8 @@
 
         <Button
             android:id="@+id/btn_editObj"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="設定"
+            android:layout_width="75dp"
+            android:layout_height="65dp"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="@+id/date_view"
             android:layout_marginLeft="0dp"
@@ -361,10 +360,8 @@
 
         <Button
             android:id="@+id/btn_setplace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="自訂"
-            android:textSize="16sp"
+            android:layout_width="75dp"
+            android:layout_height="55dp"
             app:layout_constraintLeft_toLeftOf="@+id/date_view"
             app:layout_constraintTop_toBottomOf="@+id/btn_editObj" />
 

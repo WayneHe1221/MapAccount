@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -166,16 +167,18 @@ public class EditObj extends Activity {
         LinearLayout tr = new LinearLayout(this);
         tr.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                140));
+                130));
                         /* Create a Button to be the row-content. */
         TextView tv = new TextView(this);
-        tv.setTextSize(45);
+        tv.setTextSize(30);
         tv.setText(item);
+        tv.setTextColor(getResources().getColor(R.color.itemcolor));
+        tv.setTypeface(null,Typeface.BOLD);
         tv.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.FILL_PARENT, 1));
         Button b1 = new Button(this);
-        b1.setBackgroundResource(R.drawable.ic_mode_edit_black_24dp);
+        b1.setBackgroundResource(R.drawable.pen);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,7 +193,7 @@ public class EditObj extends Activity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.FILL_PARENT, 3));
         Button b2 = new Button(this);
-        b2.setBackgroundResource(R.drawable.ic_clear_black_24dp);
+        b2.setBackgroundResource(R.drawable.delete);
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -207,7 +210,7 @@ public class EditObj extends Activity {
               /* Add row to TableLayout. */
         table_item.addView(tr, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                140));
+                130));
     }
 
     private void edit_item(int idd, String itemm_class, String itemm) {

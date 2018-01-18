@@ -34,14 +34,14 @@ public class AddItem extends Activity {
     private Switch switch1;
     private boolean point = false;
     private int requestCode = 1;
-    private double la ,lo ;
+    private double la=25.035810 ,lo=121.513746 ;
     private static char ADD = '+';
     private static char SUB = '-';
     private static char MUL = '*';
     private static char DIV = '/';
     private static char MOD = '%';
     private char CALCULATE = '0'; //判斷計算位置0為無狀態1為已完成計算  剩餘為其他計算狀態
-    private String name = "";
+    private String name = "臺北市立大學";
     String save;
 
     private double one = Double.NaN;
@@ -121,6 +121,7 @@ public class AddItem extends Activity {
 
         //選項設定按鈕
         btn_editObj = (Button) findViewById(R.id.btn_editObj);
+        btn_editObj.setBackgroundResource(R.drawable.sett);
         btn_editObj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,6 +133,7 @@ public class AddItem extends Activity {
         });
         //設定地點按鈕
         btn_setplace = (Button) findViewById(R.id.btn_setplace);
+        btn_setplace.setBackgroundResource(R.drawable.earth);
         btn_setplace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

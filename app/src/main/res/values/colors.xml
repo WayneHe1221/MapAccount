@@ -7,4 +7,6 @@
     <color name="bgColor">#ffb350</color>
     <color name="holo_blue_dark">#0099cc</color>
     <color name="bg">#663399cc</color>
+    <color name="itemcolor">#8f55cc</color>
+    <color name="itembk">#ffdfdf</color>
 </resources>

@@ -315,10 +315,9 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
     public void createMarker(double latitude, double longitude, String date, String obj, double price, String address, String localName) {
         //mMap.clear();
         latLng_check = new LatLng(latitude, longitude);
-        check = mMap.addMarker(new MarkerOptions()
-                .position(latLng_check)
-                .title(date)
-                .snippet("項目:" + obj + "金額:" + price + "地址:" + address + "地名:" + localName));
+        MarkerOptions makerOption = new MarkerOptions().position(latLng_check).title(date).snippet("項目:" + obj + "金額:" + price + "地址:" + address + "地名:" + localName);
+        check = mMap.addMarker(makerOption);
+        check.showInfoWindow();
     }
 
 }
