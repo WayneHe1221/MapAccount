@@ -116,6 +116,7 @@ public class SetPlace extends FragmentActivity implements
         bundle.putDouble("longitude", marker.getPosition().longitude);
         bundle.putDouble("latitude", marker.getPosition().latitude);
         bundle.putString("address", addresses.get(0).getAddressLine(0));
+        bundle.putString("localName", addresses.get(0).getFeatureName());
         intent.putExtras(bundle);
         setResult(requestCode, intent); //requestCode需跟A.class的一樣
         SetPlace.this.finish();

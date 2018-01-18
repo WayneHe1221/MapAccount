@@ -93,7 +93,7 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
             check = mMap.addMarker(new MarkerOptions()
                     .position(latLng_check)
                     .title(res.getString(1))
-                    .snippet("項目:" + res.getString(3) + "金額:" + res.getDouble(2) + "地址:" + res.getString(6)));
+                    .snippet("項目:" + res.getString(3) + "金額:" + res.getDouble(2) + "地址:" + res.getString(6) + "地名:" + res.getString(7)));
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng_check, 17));
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
@@ -151,30 +151,36 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
             StringBuilder sb = new StringBuilder(snippet);
             TextView snippetObj = (TextView) view.findViewById(R.id.snippetObj);
             TextView snippetPrice = (TextView) view.findViewById(R.id.snippetPrice);
+            TextView snippetName = (TextView) view.findViewById(R.id.snippetName);
             TextView snippetAddress = (TextView) view.findViewById(R.id.snippetAddress);
             if (snippet != null) {
-                int count = 0;
+                int count , count2, count3;
                 count = snippet.indexOf(":", 3) - 2;
-
+                count2 = snippet.indexOf(":", count + 3) - 2;
+                count3 = snippet.indexOf(":", count2 + 3) - 2;
                 SpannableString spanObj = new SpannableString(snippet.substring(0, count));
-                SpannableString spanPrice = new SpannableString(snippet.substring(count, snippet.indexOf(":", count + 3) - 2));
-                SpannableString spanAddress = new SpannableString(snippet.substring(snippet.indexOf(":", count + 3) - 2, snippet.length()));
+                SpannableString spanPrice = new SpannableString(snippet.substring(count, count2));
+                SpannableString spanAddress = new SpannableString(snippet.substring(count2, count3));
+                SpannableString spanName = new SpannableString(snippet.substring(count3, snippet.length()));
 //                spanObj.setSpan(new BackgroundColorSpan(Color.RED), spanObj.toString().indexOf(":") + 1, spanObj.length(), 0);
 //                spanObj.setSpan(new ForegroundColorSpan(Color.WHITE), spanObj.toString().indexOf(":") + 1, spanObj.length(), 0);
 //                spanPrice.setSpan(new BackgroundColorSpan(Color.RED), spanPrice.toString().indexOf(":") + 1, spanPrice.length(), 0);
 //                spanPrice.setSpan(new ForegroundColorSpan(Color.WHITE), spanPrice.toString().indexOf(":") + 1, spanPrice.length(), 0);
                 snippetObj.setText(spanObj);
                 snippetPrice.setText(spanPrice);
+                snippetName.setText(spanName);
                 snippetAddress.setText(spanAddress);
 
             } else {
                 snippetObj.setText("");
                 snippetPrice.setText("");
                 snippetAddress.setText("");
+                snippetName.setText("");
             }
             snippetObj.setTextColor(Color.BLACK);
             snippetPrice.setTextColor(Color.BLACK);
             snippetAddress.setTextColor(Color.BLACK);
+            snippetName.setTextColor(Color.BLACK);
         }
     }
 
@@ -230,13 +236,13 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
             res = myDb.getCoastData();
             while (res.moveToNext()) {
                 if (idarrary[i] == res.getInt(0)) {
-                    add_table_show(res.getString(1), res.getString(3), res.getDouble(2), res.getString(6), new LatLng(res.getDouble(4), res.getDouble(5)));
+                    add_table_show(res.getString(1), res.getString(3), res.getDouble(2), res.getString(6), new LatLng(res.getDouble(4), res.getDouble(5)), res.getString(7));
                 }
             }
         }
     }
 
-    private void add_table_show(String datee, String itemm, double numm, String placee, final LatLng coordinate) {
+    private void add_table_show(String datee, String itemm, double numm, String placee, final LatLng coordinate, final String name) {
         final String date = datee;
         final String item = itemm;
         final double num = numm;
@@ -249,7 +255,7 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
             public void onClick(View view) {
                 Toast.makeText(getActivity(), item + "  $ " + num, Toast.LENGTH_SHORT).show();
                 //mMap.clear();
-                createMarker(coordinate.latitude, coordinate.longitude, date, item, num, place);
+                createMarker(coordinate.latitude, coordinate.longitude, date, item, num, place, name);
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17));
             }
         });
@@ -306,13 +312,13 @@ public class My_mapFragment extends DialogFragment implements OnMapReadyCallback
                 120));
     }
 
-    public void createMarker(double latitude, double longitude, String date, String obj, double price, String address) {
+    public void createMarker(double latitude, double longitude, String date, String obj, double price, String address, String localName) {
         //mMap.clear();
         latLng_check = new LatLng(latitude, longitude);
         check = mMap.addMarker(new MarkerOptions()
                 .position(latLng_check)
                 .title(date)
-                .snippet("項目:" + obj + "金額:" + price + "地址:" + address));
+                .snippet("項目:" + obj + "金額:" + price + "地址:" + address + "地名:" + localName));
     }
 
 }

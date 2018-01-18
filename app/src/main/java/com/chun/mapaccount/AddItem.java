@@ -41,6 +41,7 @@ public class AddItem extends Activity {
     private static char DIV = '/';
     private static char MOD = '%';
     private char CALCULATE = '0'; //判斷計算位置0為無狀態1為已完成計算  剩餘為其他計算狀態
+    private String name = "";
     String save;
 
     private double one = Double.NaN;
@@ -94,7 +95,7 @@ public class AddItem extends Activity {
                 //myDb.storyDB();
                 if (switch1.isChecked()) {
                     if (isNumeric(calView.getText().toString())) {
-                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), la, lo, coordinate_view.getText().toString(),"00");
+                        myDb.addCoast(date_view.getText().toString(), Double.parseDouble(calView.getText().toString()), item_view.getText().toString(), la, lo, coordinate_view.getText().toString(), name);
                         Toast.makeText(AddItem.this, getString(R.string.new_finish), Toast.LENGTH_SHORT).show();
                     } else
                         Toast.makeText(AddItem.this, "輸入錯誤  請輸入正確金額\n  不含符號數 並請大於0", Toast.LENGTH_SHORT).show();
@@ -707,10 +708,12 @@ public class AddItem extends Activity {
                 double longitude = data.getExtras().getDouble("longitude");
                 double latitude = data.getExtras().getDouble("latitude");
                 String address = data.getExtras().getString("address");
+                String local = data.getExtras().getString("localName");
                 coordinate_view.setText(address);
                 coordinate_view.setTextSize(20);
                 lo = longitude;
                 la = latitude;
+                name = local;
                 break;
 
         }
